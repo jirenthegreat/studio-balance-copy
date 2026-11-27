@@ -1,262 +1,373 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, User } from "lucide-react";
 import SectionHeading from "./SectionHeading";
-import Reveal from "./Reveal";
+import BookingSheet from "@/components/booking/BookingSheet";
+import { addDays, isoDate } from "@/lib/booking-format";
 import { cn } from "@/lib/utils";
 
-const WEEKDAY_SHORT = ["Nd", "Pn", "Wt", "Śr", "Czw", "Pt", "Sob"];
-const WEEKDAY_LONG = [
-  "Niedziela",
-  "Poniedziałek",
-  "Wtorek",
-  "Środa",
-  "Czwartek",
-  "Piątek",
-  "Sobota",
-];
+const DAY_SHORT = ["Nd", "Pn", "Wt", "Śr", "Czw", "Pt", "Sob"];
+const DAY_LONG = ["Niedziela", "Poniedziałek", "Wtorek", "Środa", "Czwartek", "Piątek", "Sobota"];
 
-// Dane przykładowe — docelowo sesje pochodzą z bazy studia.
-// weekday: 1 = poniedziałek … 5 = piątek. Daty wyliczamy z wyświetlanego tygodnia.
+// Dane przykładowe, gdy w bazie nie ma jeszcze zajęć. weekday: 1 = poniedziałek.
 export const SAMPLE_SESSIONS = [
-  { id: "s1", weekday: 1, time: "10:00", name: "Pilates + relaksacja", color: "#B9788F", duration: 60, instructor: "Paula", capacity: 4, booked: 2 },
-  { id: "s2", weekday: 2, time: "10:00", name: "Fit Mama", color: "#9DAA94", duration: 55, instructor: "Paula", capacity: 4, booked: 3 },
-  { id: "s3", weekday: 3, time: "18:00", name: "Spinning Fit", color: "#C08552", duration: 50, instructor: "Paula", capacity: 4, booked: 4 },
-  { id: "s4", weekday: 4, time: "18:00", name: "Stretching", color: "#7C8B9B", duration: 55, instructor: "Paula", capacity: 4, booked: 1 },
-  { id: "s5", weekday: 5, time: "18:00", name: "Pilates + relaksacja", color: "#B9788F", duration: 60, instructor: "Paula", capacity: 4, booked: 0 },
+  { id: "demo-1", weekday: 1, time: "10:00", name: "Pilates + relaksacja", color: "#C98F86", duration: 60, instructor: "Paula", capacity: 4, booked: 2 },
+  { id: "demo-2", weekday: 2, time: "10:00", name: "Fit Mama", color: "#D4A48C", duration: 55, instructor: "Paula", capacity: 4, booked: 3 },
+  { id: "demo-3", weekday: 3, time: "18:00", name: "Spinning Fit", color: "#C9A27A", duration: 50, instructor: "Paula", capacity: 4, booked: 4 },
+  { id: "demo-4", weekday: 4, time: "18:00", name: "Stretching", color: "#8FA2A6", duration: 55, instructor: "Paula", capacity: 4, booked: 1 },
+  { id: "demo-5", weekday: 4, time: "19:15", name: "Trening obwodowy", color: "#A8A07A", duration: 50, instructor: "Paula", capacity: 4, booked: 0 },
+  { id: "demo-6", weekday: 5, time: "18:00", name: "Pilates + relaksacja", color: "#C98F86", duration: 60, instructor: "Paula", capacity: 4, booked: 1 },
 ];
 
-function demoSessionsFor(week) {
-  return SAMPLE_SESSIONS.flatMap((session) => {
-    const date = week.find(
-      (day) => new Date(`${day}T12:00:00`).getDay() === session.weekday
-    );
-    return date ? [{ ...session, date, is_demo: true }] : [];
-  });
+const dayOf = (date) => new Date(`${date}T12:00:00`).getDay();
+const dm = (date) => `${date.slice(8, 10)}.${date.slice(5, 7)}`;
+
+function mondayOf(date) {
+  const day = dayOf(date);
+  return addDays(date, day === 0 ? -6 : 1 - day);
 }
 
-function isoDate(d) {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-    d.getDate()
-  ).padStart(2, "0")}`;
-}
-
-/** Najbliższe 7 dni od dziś, bez niedziel. */
-export function weekDatesFor() {
+function demoSessions(monday, weeks = 2) {
   const out = [];
-  const d = new Date();
-  d.setHours(12, 0, 0, 0);
-  while (out.length < 7) {
-    if (d.getDay() !== 0) out.push(isoDate(d));
-    d.setDate(d.getDate() + 1);
+  for (let w = 0; w < weeks; w += 1) {
+    SAMPLE_SESSIONS.forEach((s) => {
+      out.push({
+        ...s,
+        id: `${s.id}-${w}`,
+        date: addDays(monday, w * 7 + s.weekday - 1),
+        is_demo: true,
+        booked: w === 0 ? s.booked : Math.max(0, s.booked - 2),
+      });
+    });
   }
   return out;
 }
 
-function weekdayShort(date) {
-  return WEEKDAY_SHORT[new Date(`${date}T12:00:00`).getDay()];
+/** Pastelowe tło karteczki z koloru typu zajęć. */
+export function tint(color, amount = 26) {
+  return `color-mix(in srgb, ${color || "#C98F86"} ${amount}%, #FBF7F2)`;
 }
 
-function weekdayLong(date) {
-  return WEEKDAY_LONG[new Date(`${date}T12:00:00`).getDay()];
-}
-
-function SlotCard({ session }) {
-  const free = Math.max(0, (session.capacity ?? 4) - (session.booked ?? 0));
+function Seats({ capacity, booked }) {
   return (
-    <article className="relative border border-graphite/12 bg-bone/70 p-4 pl-5">
-      <span
-        className="absolute inset-y-0 left-0 w-[3px]"
-        style={{ backgroundColor: session.color || "#B9788F" }}
-        aria-hidden="true"
-      />
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <span className="font-heading text-[1.35rem] leading-none">
-          {session.time}
-        </span>
+    <span className="flex gap-[3px]" aria-hidden="true">
+      {Array.from({ length: capacity }, (_, i) => (
         <span
+          key={i}
           className={cn(
-            "text-[0.6rem] uppercase tracking-[0.12em]",
-            free === 0 ? "text-rose" : "text-graphite/45"
+            "h-[7px] w-[7px] rounded-full",
+            i < booked ? "bg-graphite/70" : "border border-graphite/35"
           )}
-        >
-          {free === 0 ? "Lista rezerwowa" : `${free}/${session.capacity ?? 4} wolne`}
-        </span>
-      </div>
-      <h4 className="mt-2 text-[1.05rem] leading-snug">{session.name}</h4>
-      <div className="mt-2 flex items-center gap-2 text-[0.7rem] text-graphite/50">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sand/80">
-          <User className="h-3 w-3" aria-hidden="true" />
-        </span>
-        {session.instructor || "Paula"}
-      </div>
-      <Link
-        to="/rezerwacja/$sessionId"
-        params={{ sessionId: session.id }}
-        className="btn btn-outline mt-4 w-full !min-h-[38px] !whitespace-normal !px-2 !text-[0.56rem] leading-tight"
-      >
-        {free === 0 ? "Zapisz na listę" : "Zapisz się"}
-      </Link>
-    </article>
+        />
+      ))}
+    </span>
+  );
+}
+
+function seatsLabel(free) {
+  if (free === 0) return "Brak miejsc, lista rezerwowa";
+  if (free === 1) return "Zostało 1 miejsce";
+  return `Zostały ${free} miejsca`;
+}
+
+function ClassCard({ session, onOpen, large = false, past = false }) {
+  const capacity = session.capacity ?? 4;
+  const booked = Math.min(capacity, session.booked ?? 0);
+  const free = capacity - booked;
+  const full = free === 0;
+
+  return (
+    <button
+      type="button"
+      disabled={past}
+      onClick={() => onOpen(session)}
+      aria-label={`${session.name}, ${session.time}. ${past ? "Zajęcia już się odbyły" : seatsLabel(free)}`}
+      className={cn(
+        "group relative flex w-full flex-col rounded-xl border-l-[3px] text-left transition-all duration-300",
+        large ? "gap-1.5 p-4" : "gap-1 p-3",
+        past
+          ? "cursor-default opacity-40"
+          : "hover:-translate-y-0.5 hover:shadow-[0_10px_24px_-14px_rgba(43,29,26,0.45)]",
+        full && !past && "saturate-[0.4]"
+      )}
+      style={{ background: tint(session.color), borderLeftColor: session.color || "#C98F86" }}
+    >
+      <span className={cn("text-graphite/55", large ? "text-[0.85rem]" : "text-[0.74rem]")}>
+        {session.time} · {session.duration} min
+      </span>
+      <span className={cn("font-medium leading-tight tracking-[-0.02em]", large ? "text-[1.15rem]" : "text-[0.92rem]")}>
+        {session.name}
+      </span>
+      <span className={cn("text-graphite/60", large ? "text-[0.85rem]" : "text-[0.74rem]")}>
+        prowadzi {session.instructor || "Paula"}
+      </span>
+      <span className="mt-1.5 flex items-center justify-between gap-2">
+        <Seats capacity={capacity} booked={booked} />
+        {!past && (
+          <span
+            className={cn(
+              "text-[0.74rem] font-medium transition-opacity",
+              large ? "opacity-100" : "opacity-0 group-hover:opacity-100 group-focus-visible:opacity-100"
+            )}
+          >
+            {full ? "Lista rezerwowa" : "Zapisz się"}
+          </span>
+        )}
+      </span>
+    </button>
   );
 }
 
 export default function Schedule({
   sessions = [],
-  compact = false,
   showAllLink = true,
   demo = true,
-  title = "Najbliższe 7 dni w studiu.",
-  intro = "Małe grupy, więc miejsca szybko znikają. Zapis trwa chwilę i nie wymaga zakładania konta.",
+  title = "Grafik *tygodnia*",
+  intro = "W każdej grupie są najwyżej cztery osoby. Wybierz zajęcia i zapisz się bez zakładania konta.",
 }) {
+  const [today, setToday] = useState(null);
+  const [week, setWeek] = useState(0);
   const [filter, setFilter] = useState("all");
-  const [openDay, setOpenDay] = useState(0);
+  const [mobileDay, setMobileDay] = useState(null);
+  const [active, setActive] = useState(null);
+  const [extra, setExtra] = useState({});
 
-  const week = useMemo(() => weekDatesFor(), []);
+  // Data liczona w przeglądarce, żeby render serwera i klienta się zgadzały.
+  useEffect(() => {
+    setToday(isoDate(new Date()));
+  }, []);
+
+  const baseMonday = useMemo(() => mondayOf(today || "2026-01-05"), [today]);
 
   const source = useMemo(() => {
-    if (sessions.length) return sessions;
-    return demo ? demoSessionsFor(week) : [];
-  }, [sessions, week, demo]);
+    const list = sessions.length ? sessions : demo ? demoSessions(baseMonday) : [];
+    return list.map((s) => (extra[s.id] ? { ...s, booked: (s.booked ?? 0) + extra[s.id] } : s));
+  }, [sessions, demo, baseMonday, extra]);
 
   const types = useMemo(() => {
     const map = new Map();
-    source.forEach((s) => {
-      if (!map.has(s.name)) map.set(s.name, s.color);
-    });
+    source.forEach((s) => map.has(s.name) || map.set(s.name, s.color));
     return Array.from(map, ([name, color]) => ({ name, color }));
   }, [source]);
 
+  // Gdy w tym tygodniu nie zostało już nic do zapisu, startujemy od następnego.
+  const [autoWeek, setAutoWeek] = useState(false);
+  useEffect(() => {
+    if (!today || autoWeek) return;
+    setAutoWeek(true);
+    const sunday = addDays(baseMonday, 6);
+    const upcoming = source.some((s) => s.date >= today && s.date <= sunday);
+    if (!upcoming) setWeek(1);
+  }, [today, autoWeek, baseMonday, source]);
+
+  const monday = addDays(baseMonday, week * 7);
   const visible = source.filter(
-    (s) => week.includes(s.date) && (filter === "all" || s.name === filter)
+    (s) =>
+      s.date >= monday &&
+      s.date <= addDays(monday, 6) &&
+      (filter === "all" || s.name === filter)
   );
+
+  // Pn–Pt zawsze, weekend tylko gdy są zajęcia.
+  const days = Array.from({ length: 7 }, (_, i) => addDays(monday, i)).filter(
+    (d, i) => i < 5 || visible.some((s) => s.date === d)
+  );
+  const times = Array.from(new Set(visible.map((s) => s.time))).sort();
+
+  const firstUpcoming =
+    days.find((d) => d >= (today || "") && visible.some((s) => s.date === d)) || days[0];
+  const selectedDay = days.includes(mobileDay) ? mobileDay : firstUpcoming;
+  const daySessions = visible
+    .filter((s) => s.date === selectedDay)
+    .sort((a, b) => a.time.localeCompare(b.time));
+
+  const isPast = (s) => !!today && `${s.date}T${s.time}` < `${today}T${nowTime()}`;
+
+  const pill = (on) =>
+    cn(
+      "shrink-0 rounded-full px-4 py-2 text-[0.88rem] transition-colors",
+      on ? "bg-graphite text-linen" : "bg-graphite/[0.06] text-graphite/70 hover:bg-graphite/10"
+    );
 
   return (
-    <section id="grafik" className="bg-sand/30 py-24 md:py-32">
+    <section id="grafik" className="py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
-        <Reveal className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <SectionHeading overline="Grafik" title={title} intro={intro} />
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <SectionHeading title={title} />
+          <p className="max-w-xs text-[0.95rem] leading-relaxed text-graphite/60 md:text-right">
+            {intro}
+          </p>
+        </div>
+
+        <div className="mt-10 flex flex-wrap items-center gap-2">
+          <div className="flex rounded-full bg-graphite/[0.06] p-1" role="group" aria-label="Wybór tygodnia">
+            {["Ten tydzień", "Następny"].map((label, i) => (
+              <button
+                key={label}
+                type="button"
+                onClick={() => setWeek(i)}
+                aria-pressed={week === i}
+                className={cn(
+                  "rounded-full px-4 py-1.5 text-[0.88rem] transition-colors",
+                  week === i ? "bg-linen text-graphite shadow-sm" : "text-graphite/60"
+                )}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+          <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 md:mx-0 md:px-0">
+            <button type="button" onClick={() => setFilter("all")} className={pill(filter === "all")}>
+              Wszystkie
+            </button>
+            {types.map((t) => (
+              <button
+                key={t.name}
+                type="button"
+                onClick={() => setFilter(t.name)}
+                className={cn(pill(filter === t.name), "flex items-center gap-2")}
+              >
+                <span className="h-2 w-2 rounded-full" style={{ background: t.color }} aria-hidden="true" />
+                {t.name}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop: siatka tygodnia */}
+        <div className="mt-6 hidden overflow-hidden rounded-[24px] bg-linen md:block">
+          <div
+            className="grid"
+            style={{ gridTemplateColumns: `4.5rem repeat(${days.length}, minmax(0, 1fr))` }}
+          >
+            <div />
+            {days.map((d) => (
+              <div
+                key={d}
+                className={cn(
+                  "border-l border-graphite/[0.07] px-3 py-4 text-center",
+                  d === today && "bg-sage/10"
+                )}
+              >
+                <p className="text-[0.95rem] font-medium">{DAY_SHORT[dayOf(d)]}</p>
+                <p className="text-[0.78rem] text-graphite/45">{d === today ? "dziś" : dm(d)}</p>
+              </div>
+            ))}
+
+            {times.map((time) => (
+              <Row key={time} time={time} days={days} today={today}>
+                {(d) =>
+                  visible
+                    .filter((s) => s.date === d && s.time === time)
+                    .map((s) => (
+                      <ClassCard key={s.id} session={s} onOpen={setActive} past={isPast(s)} />
+                    ))
+                }
+              </Row>
+            ))}
+          </div>
+          {!times.length && <Empty onNext={week === 0 ? () => setWeek(1) : null} />}
+        </div>
+
+        {/* Mobile: pigułki dni + lista */}
+        <div className="mt-6 md:hidden">
+          <div className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 pb-1" role="tablist" aria-label="Dzień tygodnia">
+            {days.map((d) => {
+              const count = visible.filter((s) => s.date === d).length;
+              const on = d === selectedDay;
+              return (
+                <button
+                  key={d}
+                  type="button"
+                  role="tab"
+                  aria-selected={on}
+                  onClick={() => setMobileDay(d)}
+                  className={cn(
+                    "flex min-w-[3.6rem] shrink-0 flex-col items-center rounded-2xl px-3 py-2.5 transition-colors",
+                    on ? "bg-graphite text-linen" : "bg-linen text-graphite"
+                  )}
+                >
+                  <span className="text-[0.9rem] font-medium">{DAY_SHORT[dayOf(d)]}</span>
+                  <span className={cn("text-[0.72rem]", on ? "text-linen/70" : "text-graphite/45")}>{dm(d)}</span>
+                  <span
+                    className={cn("mt-1 h-1 w-1 rounded-full", count ? (on ? "bg-linen" : "bg-graphite/50") : "bg-transparent")}
+                    aria-hidden="true"
+                  />
+                </button>
+              );
+            })}
+          </div>
+
+          <p className="mt-5 text-[0.9rem] text-graphite/55">
+            {selectedDay && `${DAY_LONG[dayOf(selectedDay)]}, ${dm(selectedDay)}`}
+          </p>
+          <div className="mt-3 space-y-2.5">
+            {daySessions.map((s) => (
+              <ClassCard key={s.id} session={s} onOpen={setActive} large past={isPast(s)} />
+            ))}
+            {!daySessions.length && (
+              <div className="rounded-2xl bg-linen px-5 py-8 text-center text-[0.92rem] text-graphite/55">
+                Tego dnia nie ma zajęć. Wybierz inny dzień powyżej.
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-8 flex flex-wrap items-center justify-between gap-4">
+          <p className="font-hand text-[1.35rem] -rotate-1 text-rose">
+            Pierwszy raz? Napisz o tym w uwagach, Paula pomoże.
+          </p>
           {showAllLink && (
-            <Link to="/grafik" className="btn btn-outline shrink-0">
-              Pełny grafik
+            <Link to="/trening-personalny" className="btn btn-outline">
+              Wolisz trening 1:1?
             </Link>
           )}
-        </Reveal>
-
-        <div className="no-scrollbar mt-10 flex gap-2 overflow-x-auto pb-1">
-          <button
-            type="button"
-            onClick={() => setFilter("all")}
-            className={cn(
-              "shrink-0 border px-4 py-2 text-[0.64rem] uppercase tracking-[0.14em] transition-colors",
-              filter === "all"
-                ? "border-graphite bg-graphite text-bone"
-                : "border-graphite/20 text-graphite/60 hover:border-graphite/50"
-            )}
-          >
-            Wszystkie
-          </button>
-          {types.map((type) => (
-            <button
-              key={type.name}
-              type="button"
-              onClick={() => setFilter(type.name)}
-              className={cn(
-                "flex shrink-0 items-center gap-2 border px-4 py-2 text-[0.64rem] uppercase tracking-[0.14em] transition-colors",
-                filter === type.name
-                  ? "border-graphite bg-graphite text-bone"
-                  : "border-graphite/20 text-graphite/60 hover:border-graphite/50"
-              )}
-            >
-              <span
-                className="h-1.5 w-1.5 rounded-full"
-                style={{ backgroundColor: type.color }}
-                aria-hidden="true"
-              />
-              {type.name}
-            </button>
-          ))}
         </div>
-
-        {/* Desktop */}
-        <div className="mt-8 hidden gap-4 md:grid md:grid-cols-4 lg:grid-cols-7">
-          {week.map((date) => {
-            const daySessions = visible.filter((s) => s.date === date);
-            return (
-              <div key={date}>
-                <div className="mb-4 border-b border-graphite/15 pb-3">
-                  <p className="text-[0.66rem] uppercase tracking-[0.2em] text-graphite/45">
-                    {weekdayShort(date)}
-                  </p>
-                  <p className="mt-1 font-heading text-lg">{date.slice(8, 10)}.{date.slice(5, 7)}</p>
-                </div>
-                <div className="space-y-3">
-                  {daySessions.length === 0 && (
-                    <p className="py-6 text-center text-[0.7rem] text-graphite/35">
-                      brak zajęć
-                    </p>
-                  )}
-                  {daySessions.map((s) => (
-                    <SlotCard key={s.id} session={s} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Mobile */}
-        <div className="mt-8 md:hidden">
-          {week.map((date, i) => {
-            const daySessions = visible.filter((s) => s.date === date);
-            const isOpen = openDay === i;
-            return (
-              <div key={date} className="border-b border-graphite/15">
-                <button
-                  type="button"
-                  onClick={() => setOpenDay(isOpen ? -1 : i)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between py-4 text-left"
-                >
-                  <span className="flex items-baseline gap-3">
-                    <span className="font-heading text-xl">{weekdayLong(date)}</span>
-                    <span className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/40">
-                      {date.slice(8, 10)}.{date.slice(5, 7)}
-                    </span>
-                  </span>
-                  <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.12em] text-graphite/45">
-                    {daySessions.length} {daySessions.length === 1 ? "zajęcia" : "zajęć"}
-                    <CalendarDays className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </button>
-                {isOpen && (
-                  <div className="space-y-3 pb-5">
-                    {daySessions.length === 0 && (
-                      <p className="py-2 text-[0.8rem] text-graphite/45">
-                        W tym dniu nie ma zaplanowanych zajęć.
-                      </p>
-                    )}
-                    {daySessions.map((s) => (
-                      <SlotCard key={s.id} session={s} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            );
-          })}
-        </div>
-
-        {visible.length === 0 && (
-          <p className="mt-8 text-center text-sm text-graphite/50">
-            Brak zajęć w wybranym filtrze. Zmień filtr lub zajrzyj do pełnego grafiku.
-          </p>
-        )}
-        {!compact && (
-          <p className="mt-10 text-[0.72rem] uppercase tracking-[0.16em] text-graphite/40">
-            Zajęcia prowadzi Paula Kruszyńska
-          </p>
-        )}
       </div>
+
+      <BookingSheet
+        session={active}
+        onClose={() => setActive(null)}
+        onBooked={(id) => setExtra((e) => ({ ...e, [id]: (e[id] || 0) + 1 }))}
+      />
     </section>
   );
+}
+
+function Row({ time, days, today, children }) {
+  return (
+    <>
+      <div className="border-t border-graphite/[0.07] px-3 py-3 text-right text-[0.78rem] text-graphite/45">
+        {time}
+      </div>
+      {days.map((d) => (
+        <div
+          key={d}
+          className={cn(
+            "min-h-[7.5rem] space-y-2 border-l border-t border-graphite/[0.07] p-2",
+            d === today && "bg-sage/10"
+          )}
+        >
+          {children(d)}
+        </div>
+      ))}
+    </>
+  );
+}
+
+function Empty({ onNext }) {
+  return (
+    <div className="border-t border-graphite/[0.07] px-6 py-14 text-center">
+      <p className="text-[1.05rem]">W tym tygodniu nie ma już zajęć w tym filtrze.</p>
+      {onNext && (
+        <button type="button" onClick={onNext} className="btn btn-outline mt-5">
+          Pokaż następny tydzień
+        </button>
+      )}
+    </div>
+  );
+}
+
+function nowTime() {
+  const d = new Date();
+  return `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(2, "0")}`;
 }

@@ -20,7 +20,7 @@ export const Route = createRootRoute({
         content:
           "Butikowe studio treningowe w Unia Art Residence w Lublinie. Pilates, spinning, stretching i trening personalny w kameralnych grupach do 4 osób.",
       },
-      { name: "theme-color", content: "#F7F3EE" },
+      { name: "theme-color", content: "#F3ECE4" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
@@ -32,7 +32,7 @@ export const Route = createRootRoute({
       },
       {
         rel: "stylesheet",
-        href: "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500;600&display=swap",
+        href: "https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..600&family=Instrument+Serif:ital@0;1&family=Caveat:wght@500&display=swap",
       },
     ],
   }),

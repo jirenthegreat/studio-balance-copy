@@ -30,7 +30,7 @@ function RezerwacjaPage() {
       <div className="mx-auto max-w-5xl px-5 md:px-10">
         <Link
           to="/grafik"
-          className="text-[0.7rem] uppercase tracking-[0.18em] text-graphite/50 hover:text-graphite"
+          className="text-[0.7rem] text-graphite/50 hover:text-graphite"
         >
           ← Wróć do grafiku
         </Link>
@@ -49,7 +49,7 @@ function RezerwacjaPage() {
             </div>
           </div>
         ) : (
-          <div className="mt-10 border border-graphite/15 bg-bone p-10 text-center">
+          <div className="mt-10  bg-bone p-10 text-center">
             <h1 className="text-[1.8rem] leading-tight">Nie znaleźliśmy tych zajęć</h1>
             <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-graphite/60">
               Termin mógł zostać odwołany lub już się odbył. Zajrzyj do

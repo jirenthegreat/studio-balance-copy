@@ -36,26 +36,26 @@ export default function Contact({ onSubmit }) {
       setSent(true);
       setForm(EMPTY);
     } catch (err) {
-      setError("Nie udało się wysłać wiadomości. Spróbuj ponownie lub napisz na Messengerze.");
+      setError("Nie udało się wysłać wiadomości. Spróbuj ponownie lub zadzwoń: 730 730 357.");
     } finally {
       setSending(false);
     }
   };
 
   return (
-    <section id="kontakt" className="bg-sand/40 py-24 md:py-32">
+    <section id="kontakt" className="py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <div className="grid gap-12 md:grid-cols-2 md:gap-16">
           <Reveal>
             <SectionHeading
               overline="Kontakt"
-              title="Przyjdź, zobacz, zostań."
+              title="Przyjdź i *zobacz sama.*"
               intro="Studio jest w Unia Art Residence — w centrum Lublina, z widokiem na zieleń."
             />
 
             <ul className="mt-9 space-y-6 text-[0.95rem] text-graphite/75">
               <li className="flex gap-4">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-rose" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
                 <span>
                   {CONTACT.place}
                   <br />
@@ -66,13 +66,14 @@ export default function Contact({ onSubmit }) {
               </li>
               <li>
                 <a href={CONTACT.phoneHref} className="flex gap-4 hover:text-graphite">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-rose" aria-hidden="true" />
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
                   {CONTACT.phone}
                 </a>
               </li>
             </ul>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              {CONTACT.messenger && (
               <a
                 href={CONTACT.messenger}
                 target="_blank"
@@ -82,6 +83,8 @@ export default function Contact({ onSubmit }) {
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 Messenger
               </a>
+              )}
+              {CONTACT.facebook && (
               <a
                 href={CONTACT.facebook}
                 target="_blank"
@@ -91,6 +94,7 @@ export default function Contact({ onSubmit }) {
                 <Facebook className="h-4 w-4" aria-hidden="true" />
                 Facebook
               </a>
+              )}
               <a
                 href={CONTACT.instagram}
                 target="_blank"
@@ -102,7 +106,7 @@ export default function Contact({ onSubmit }) {
               </a>
             </div>
 
-            <div className="mt-9 overflow-hidden rounded-[1.25rem] border border-graphite/15">
+            <div className="mt-9 overflow-hidden rounded-[1.25rem] ">
               <iframe
                 title="Mapa dojazdu do Studio Balance, Aleje Racławickie 10/14, Lublin"
                 src={CONTACT.mapEmbed}
@@ -114,7 +118,7 @@ export default function Contact({ onSubmit }) {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="border border-graphite/15 bg-bone p-6 md:p-8">
+            <div className="rounded-[28px] bg-linen p-6 md:p-9">
               <h3 className="text-[1.6rem] leading-tight">Napisz do nas</h3>
               <p className="mt-2 text-[0.85rem] leading-relaxed text-graphite/55">
                 Napisz, jeśli masz pytanie o zajęcia, termin lub trening
@@ -122,7 +126,7 @@ export default function Contact({ onSubmit }) {
               </p>
 
               {sent ? (
-                <div className="mt-8 border border-sage/40 bg-sage/10 p-6 text-[0.9rem] leading-relaxed text-graphite/75">
+                <div className="mt-8 rounded-2xl bg-sage/15 p-6 text-[0.9rem] leading-relaxed text-graphite/75">
                   Dziękujemy za wiadomość. Odpowiemy na podany adres e-mail.
                 </div>
               ) : (
@@ -169,7 +173,7 @@ export default function Contact({ onSubmit }) {
                     />
                   </Field>
 
-                  <label className="flex items-start gap-3 pt-1 text-[0.78rem] leading-relaxed text-graphite/60">
+                  <label className="flex items-start gap-3 pt-1 text-[0.85rem] leading-relaxed text-graphite/60">
                     <Checkbox
                       checked={form.consent}
                       onCheckedChange={(v) =>
@@ -213,7 +217,7 @@ function Field({ label, id, children }) {
     <div>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-graphite/50"
+        className="mb-1.5 block text-[0.8rem] text-graphite/50"
       >
         {label}
       </label>

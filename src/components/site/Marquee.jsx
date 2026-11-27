@@ -19,7 +19,7 @@ export default function Marquee() {
             {WORDS.map((word) => (
               <span
                 key={`${half}-${word}`}
-                className="flex items-center whitespace-nowrap text-[0.66rem] uppercase tracking-[0.36em] text-graphite/50"
+                className="flex items-center whitespace-nowrap text-[0.8rem] text-graphite/50"
               >
                 {word}
                 <span className="mx-6 text-rose/45">·</span>

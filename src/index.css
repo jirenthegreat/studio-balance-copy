@@ -4,13 +4,13 @@
 
 @layer base {
   :root {
-    --background: 33 36% 95%;
-    --foreground: 0 0% 17%;
-    --card: 40 40% 97%;
+    --background: 30 38% 92%;
+    --foreground: 9 25% 14%;
+    --card: 34 56% 97%;
     --card-foreground: 0 0% 17%;
     --popover: 40 40% 97%;
     --popover-foreground: 0 0% 17%;
-    --primary: 0 0% 17%;
+    --primary: 9 25% 14%;
     --primary-foreground: 33 36% 95%;
     --secondary: 35 39% 85%;
     --secondary-foreground: 0 0% 17%;
@@ -22,11 +22,13 @@
     --destructive-foreground: 0 0% 98%;
     --border: 33 18% 85%;
     --input: 33 18% 85%;
-    --ring: 339 32% 60%;
-    --radius: 0.35rem;
-    --font-heading: "Cormorant Garamond", ui-serif, Georgia, serif;
+    --ring: 108 12% 53%;
+    --radius: 1rem;
+    --font-heading: "Inter", ui-sans-serif, system-ui, sans-serif;
     --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
-    --font-display: "Cormorant Garamond", ui-serif, Georgia, serif;
+    --font-display: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-serif: "Instrument Serif", ui-serif, Georgia, serif;
+    --font-hand: "Caveat", "Segoe Print", cursive;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
     --chart-1: 339 32% 60%;
     --chart-2: 96 11% 62%;
@@ -52,17 +54,31 @@
   h1,
   h2,
   h3 {
-    @apply font-heading font-light;
+    @apply font-heading font-medium;
+    font-optical-sizing: auto;
+    font-variation-settings: "opsz" 32;
+    letter-spacing: -0.035em;
     text-wrap: balance;
   }
 
+  /* Słowo-akcent w nagłówkach: szeryfowa kursywa. */
+  h1 em,
+  h2 em,
+  h3 em,
+  .accent {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
   ::selection {
-    background: #e8dccb;
-    color: #2b2b2b;
+    background: #dfe6dc;
+    color: #2b1d1a;
   }
 
   :focus-visible {
-    outline: 2px solid #b9788f;
+    outline: 2px solid #5e7259;
     outline-offset: 3px;
   }
 
@@ -73,6 +89,9 @@
     .reveal {
       opacity: 1 !important;
       transform: none !important;
+      transition: none !important;
+    }
+    .polaroid {
       transition: none !important;
     }
     .kenburns,
@@ -89,11 +108,21 @@
 }
 
 @layer components {
-  .overline {
-    font-size: 0.66rem;
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: fit-content;
+    padding: 0.32rem 0.8rem;
+    border-radius: 999px;
+    background: rgba(43, 29, 26, 0.06);
+    font-size: 0.78rem;
     font-weight: 500;
-    letter-spacing: 0.34em;
-    text-transform: uppercase;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+  .eyebrow > span[aria-hidden="true"] {
+    display: none;
   }
 
   .btn {
@@ -102,46 +131,46 @@
     justify-content: center;
     gap: 0.55rem;
     min-height: 48px;
-    padding: 0 1.7rem;
-    font-size: 0.7rem;
+    padding: 0 1.5rem;
+    font-size: 0.92rem;
     font-weight: 500;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
+    letter-spacing: -0.01em;
     border: 1px solid transparent;
-    border-radius: 2px;
-    transition: background-color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      color 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-      border-color 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+    border-radius: 999px;
+    transition: background-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
     cursor: pointer;
     white-space: nowrap;
   }
+  .btn:active {
+    transform: scale(0.98);
+  }
 
   .btn-primary {
-    background: #2b2b2b;
-    color: #f7f3ee;
+    background: #2b1d1a;
+    color: #fbf7f2;
   }
   .btn-primary:hover {
-    background: #3f3b38;
+    background: #46332e;
   }
 
   .btn-outline {
-    border-color: rgba(43, 43, 43, 0.32);
-    color: #2b2b2b;
+    background: rgba(43, 29, 26, 0.06);
+    color: #2b1d1a;
   }
   .btn-outline:hover {
-    background: #2b2b2b;
-    color: #f7f3ee;
-    border-color: #2b2b2b;
+    background: rgba(43, 29, 26, 0.12);
   }
 
   .btn-light {
-    border-color: rgba(247, 243, 238, 0.5);
-    color: #f7f3ee;
+    background: rgba(251, 247, 242, 0.7);
+    color: #2b1d1a;
+    backdrop-filter: blur(8px);
   }
   .btn-light:hover {
-    background: #f7f3ee;
-    color: #2b2b2b;
-    border-color: #f7f3ee;
+    background: #fbf7f2;
   }
 
   .btn:disabled,
@@ -151,8 +180,7 @@
   }
 
   .photo-warm {
-    filter: sepia(0.16) saturate(0.88) contrast(0.96) brightness(1.03)
-      hue-rotate(-4deg);
+    filter: sepia(0.12) saturate(0.86) contrast(0.95) brightness(1.04);
   }
 
   .rule {
@@ -168,33 +196,49 @@
     display: block;
     width: 100%;
     min-height: 48px;
-    border: 1px solid rgba(43, 43, 43, 0.2);
-    background: #fdfbf8;
+    border: 1px solid rgba(43, 29, 26, 0.12);
+    background: #fbf7f2;
     padding: 0.75rem 0.9rem;
     font-family: var(--font-body);
     font-size: 0.92rem;
-    color: #2b2b2b;
-    border-radius: 2px;
+    color: #2b1d1a;
+    border-radius: 14px;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .input::placeholder {
-    color: rgba(43, 43, 43, 0.35);
+    color: rgba(43, 29, 26, 0.35);
   }
 
   .input:focus {
     outline: none;
-    border-color: #b9788f;
-    box-shadow: 0 0 0 3px rgba(185, 120, 143, 0.14);
+    border-color: #7f9779;
+    box-shadow: 0 0 0 3px rgba(127, 151, 121, 0.18);
   }
 
   .input:focus-visible {
-    outline: 2px solid #b9788f;
+    outline: 2px solid #5e7259;
     outline-offset: 2px;
   }
 }
 
 @layer utilities {
+  .polaroid {
+    transform: rotate(var(--r, 0deg));
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .polaroid:hover,
+  .polaroid:focus-visible {
+    transform: rotate(0deg) translateY(-6px) scale(1.02);
+  }
+
+  /* Perforacja biletu powitalnego. */
+  .ticket-cut {
+    background-image: radial-gradient(circle, #f3ece4 5px, transparent 5.5px);
+    background-size: 100% 20px;
+  }
+
   .reveal {
     opacity: 0;
     transform: translateY(22px);
@@ -213,7 +257,7 @@
     inset: 0;
     z-index: 60;
     pointer-events: none;
-    opacity: 0.045;
+    opacity: 0.03;
     mix-blend-mode: multiply;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }

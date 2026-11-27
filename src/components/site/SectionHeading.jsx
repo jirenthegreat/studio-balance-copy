@@ -1,6 +1,20 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
+/** „*słowo*” w tytule renderuje się szeryfową kursywą. */
+export function withAccent(text) {
+  return String(text)
+    .split(/(\*[^*]+\*)/g)
+    .filter(Boolean)
+    .map((part, i) =>
+      part.startsWith("*") && part.endsWith("*") ? (
+        <em key={i}>{part.slice(1, -1)}</em>
+      ) : (
+        part
+      )
+    );
+}
+
 /**
  * Nagłówek sekcji. Tytuł może zawierać „|” — każdy fragment to osobna linia,
  * odsłaniana maską (mask reveal) po wejściu w widok.
@@ -51,29 +65,25 @@ export default function SectionHeading({
       {overline && (
         <p
           className={cn(
-            "overline mb-5 flex items-center gap-3",
-            centered && "justify-center",
-            light ? "text-sand/85" : "text-rose"
+            "eyebrow mb-5",
+            centered && "mx-auto",
+            light ? "bg-linen/15 text-linen" : "text-graphite/70"
           )}
         >
-          <span
-            className={cn("h-px w-7", light ? "bg-sand/50" : "bg-rose/50")}
-            aria-hidden="true"
-          />
           {overline}
         </p>
       )}
       <h2
         ref={ref}
         className={cn(
-          "mask-lines text-[2.15rem] leading-[1.08] tracking-[-0.01em] sm:text-[2.6rem] md:text-[3.2rem]",
+          "mask-lines text-[2.3rem] leading-[1.02] sm:text-[2.9rem] md:text-[3.6rem]",
           shown && "is-visible",
-          light ? "text-bone" : "text-graphite"
+          light ? "text-linen" : "text-graphite"
         )}
       >
         {lines.map((line, i) => (
           <span key={`${line}-${i}`} className="mask-line">
-            <span style={{ transitionDelay: `${i * 110}ms` }}>{line}</span>
+            <span style={{ transitionDelay: `${i * 110}ms` }}>{withAccent(line)}</span>
           </span>
         ))}
       </h2>
@@ -81,7 +91,7 @@ export default function SectionHeading({
         <p
           className={cn(
             "mt-6 text-[1rem] leading-[1.75] md:text-[1.06rem]",
-            light ? "text-bone/75" : "text-graphite/65"
+            light ? "text-linen/75" : "text-graphite/65"
           )}
         >
           {intro}

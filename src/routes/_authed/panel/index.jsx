@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { seedDemoData, generateSessions } from "@/lib/server-fns";
 import { Phone, Mail, ArrowRight } from "lucide-react";
 import { useCollection } from "@/lib/useCollection";
 import { addDays, formatDatePl, isoDate } from "@/lib/booking-format";
@@ -62,6 +63,8 @@ function Dashboard() {
   return (
     <div>
       <PageTitle subtitle={formatDatePl(today)}>Dzień dobry, Paulo</PageTitle>
+
+      {!weekSessions.length && <SeedCard />}
 
       <div className="grid gap-3 sm:grid-cols-3">
         <Stat label="Zajęcia dziś i jutro" value={sessions.length} />
@@ -188,6 +191,45 @@ function SessionBlock({ session, bookings }) {
           Lista rezerwowa: {waitlist.map((b) => b.first_name).join(", ")}
         </p>
       )}
+    </div>
+  );
+}
+
+/** Widoczne, gdy w tym tygodniu nie ma żadnych zajęć (np. świeża kopia aplikacji). */
+function SeedCard() {
+  const [state, setState] = useState("idle");
+  const [error, setError] = useState("");
+
+  const run = async () => {
+    setState("busy");
+    setError("");
+    try {
+      await seedDemoData();
+      await generateSessions({ data: { weeks: 4 } });
+      setState("done");
+      window.location.reload();
+    } catch (err) {
+      setState("idle");
+      setError(err?.message || "Nie udało się wypełnić danych.");
+    }
+  };
+
+  return (
+    <div className="mb-6 rounded-2xl bg-sage/15 p-5">
+      <p className="font-medium">Grafik jest pusty</p>
+      <p className="mt-1 text-sm text-graphite/70">
+        Uzupełnij puste tabele danymi startowymi: ofertą, grafikiem cyklicznym na
+        4 tygodnie, opiniami z Google i cennikiem. Istniejące dane zostają bez zmian.
+      </p>
+      {error && <p className="mt-2 text-sm text-destructive">{error}</p>}
+      <button
+        type="button"
+        onClick={run}
+        disabled={state !== "idle"}
+        className="btn btn-primary mt-4"
+      >
+        {state === "busy" ? "Wypełniam…" : "Wypełnij danymi startowymi"}
+      </button>
     </div>
   );
 }

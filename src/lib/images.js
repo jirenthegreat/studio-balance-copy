@@ -19,9 +19,10 @@ export const CONTACT = {
   street: "Aleje Racławickie 10/14, lok. 14",
   city: "20-037 Lublin",
   place: "Unia Art Residence",
-  facebook: "https://www.facebook.com/",
+  // Uzupełnij adresy profilu studia — puste linki są ukrywane na stronie.
+  facebook: "",
   instagram: "https://www.instagram.com/studio_balance_lbn/",
-  messenger: "https://m.me/",
+  messenger: "",
   googleReviews: "https://share.google/0Ya2XvEnhrMEBhfBY",
   mapEmbed:
     "https://www.google.com/maps?q=Aleje+Rac%C5%82awickie+10%2F14%2C+20-037+Lublin&output=embed",

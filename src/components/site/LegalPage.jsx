@@ -4,13 +4,12 @@ export default function LegalPage({ overline, title, updated, sections }) {
   return (
     <section className="pb-24 pt-32 md:pt-40">
       <div className="mx-auto max-w-3xl px-5 md:px-10">
-        <p className="overline flex items-center gap-3 text-rose">
-          <span className="h-px w-7 bg-rose/50" aria-hidden="true" />
+        <p className="eyebrow">
           {overline}
         </p>
         <h1 className="mt-5 text-[2.2rem] leading-[1.08] md:text-[2.9rem]">{title}</h1>
         {updated && (
-          <p className="mt-3 text-[0.72rem] uppercase tracking-[0.16em] text-graphite/40">
+          <p className="mt-3 text-[0.85rem] text-graphite/40">
             Ostatnia aktualizacja: {updated}
           </p>
         )}
@@ -30,7 +29,7 @@ export default function LegalPage({ overline, title, updated, sections }) {
 
         <Link
           to="/"
-          className="mt-12 inline-block text-[0.72rem] uppercase tracking-[0.16em] underline underline-offset-4"
+          className="mt-12 inline-block text-[0.85rem] underline underline-offset-4"
         >
           ← Wróć na stronę główną
         </Link>

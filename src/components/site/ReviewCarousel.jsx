@@ -20,7 +20,7 @@ function ReviewCard({ review }) {
   return (
     <figure
       data-card
-      className="flex w-[86%] shrink-0 snap-start flex-col justify-between border border-graphite/12 bg-card p-7 sm:w-[47%] lg:w-[calc((100%-3rem)/3)]"
+      className="flex w-[86%] shrink-0 snap-start flex-col justify-between bg-card p-7 sm:w-[47%] lg:w-[calc((100%-3rem)/3)]"
     >
       <div>
         <div className="flex items-center gap-3.5">
@@ -42,7 +42,7 @@ function ReviewCard({ review }) {
         </blockquote>
       </div>
 
-      <p className="mt-6 flex items-center gap-2 border-t border-graphite/10 pt-4 text-[0.58rem] uppercase tracking-[0.2em] text-graphite/45">
+      <p className="mt-6 flex items-center gap-2 border-t border-graphite/10 pt-4 text-[0.8rem] text-graphite/45">
         <span className="flex h-4 w-4 items-center justify-center rounded-full border border-graphite/25 text-[0.5rem] font-semibold">
           G
         </span>
@@ -75,7 +75,7 @@ export default function ReviewCarousel({ reviews }) {
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <p className="text-[0.62rem] uppercase tracking-[0.18em] text-graphite/40 md:hidden">
+        <p className="text-[0.8rem] text-graphite/40 md:hidden">
           Przewiń palcem, aby zobaczyć więcej
         </p>
         <div className="hidden gap-2 md:flex">

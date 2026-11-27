@@ -1,16 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Hero from "@/components/site/Hero";
 import About from "@/components/site/About";
+import Quote from "@/components/site/Quote";
+import Needs from "@/components/site/Needs";
 import MeetPaula from "@/components/site/MeetPaula";
 import Team from "@/components/site/Team";
 import Offer from "@/components/site/Offer";
-import Marquee from "@/components/site/Marquee";
-import HowItWorks from "@/components/site/HowItWorks";
 import Stats from "@/components/site/Stats";
 import MobileCta from "@/components/site/MobileCta";
 import Schedule from "@/components/site/Schedule";
 import Pricing from "@/components/site/Pricing";
-import Gallery from "@/components/site/Gallery";
 import Reviews from "@/components/site/Reviews";
 import CtaBand from "@/components/site/CtaBand";
 import Faq from "@/components/site/Faq";
@@ -36,7 +35,7 @@ const SCHEMA = {
     addressCountry: "PL",
   },
   areaServed: "Lublin",
-  sameAs: [CONTACT.facebook],
+  sameAs: [CONTACT.instagram],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
@@ -93,7 +92,12 @@ function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
       />
       <Hero />
-      <About />
+      <Quote />
+      <About images={gallery} />
+      <Stats />
+      <Offer offers={types.length ? types : undefined} />
+      <Needs />
+      <Schedule sessions={sessions} />
       <MeetPaula
         instructor={
           lead
@@ -108,11 +112,8 @@ function HomePage() {
             : undefined
         }
       />
-      <Offer offers={types.length ? types : undefined} />
-      <Marquee />
-      <HowItWorks />
-      <Stats />
-      <Schedule sessions={sessions} />
+      <Team instructors={instructors} />
+      <Reviews reviews={reviews} />
       <Pricing
         plans={plans.length ? plans : undefined}
         promo={
@@ -121,14 +122,11 @@ function HomePage() {
             : undefined
         }
       />
-      <Gallery images={gallery.length ? gallery : undefined} />
-      <Reviews reviews={reviews} />
-      <CtaBand />
-      <Team instructors={instructors} />
       <Faq />
       <Contact
         onSubmit={(form) => sendContactMessage({ data: { ...form } })}
       />
+      <CtaBand />
       <div className="h-16 md:hidden" aria-hidden="true" />
       <MobileCta />
     </>

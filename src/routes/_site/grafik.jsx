@@ -33,16 +33,12 @@ function GrafikPage() {
 
   return (
     <>
-      <section className="border-b border-graphite/10 bg-bone pb-10 pt-32 md:pt-40">
+      <section className="pb-0 pt-32 md:pt-40">
         <div className="mx-auto max-w-6xl px-5 md:px-10">
-          <p className="overline flex items-center gap-3 text-rose">
-            <span className="h-px w-7 bg-rose/50" aria-hidden="true" />
-            Grafik
-          </p>
-          <h1 className="mt-5 max-w-2xl text-[2.4rem] leading-[1.05] md:text-[3.4rem]">
-            {person ? `Zajęcia z ${person.name}` : "Zaplanuj swój tydzień."}
+          <h1 className="max-w-3xl text-[clamp(2.8rem,7vw,5.6rem)] leading-[0.95]">
+            {person ? `Zajęcia: ${person.name}` : <>Zaplanuj swój <em>tydzień.</em></>}
           </h1>
-          <p className="mt-4 max-w-xl text-[0.95rem] leading-[1.8] text-graphite/60">
+          <p className="mt-5 max-w-xl text-[1.02rem] leading-[1.7] text-graphite/65">
             Kameralne grupy do czterech osób. Wybierz termin i zapisz się w
             kilka sekund — potwierdzenie przyjdzie mailem.
           </p>
@@ -50,7 +46,7 @@ function GrafikPage() {
             <Link
               to="/grafik"
               search={{}}
-              className="mt-5 inline-block text-[0.72rem] uppercase tracking-[0.16em] underline underline-offset-4"
+              className="mt-5 inline-block text-[0.85rem] underline underline-offset-4"
             >
               Pokaż wszystkie zajęcia
             </Link>
@@ -62,8 +58,8 @@ function GrafikPage() {
         sessions={filtered}
         demo={!instructor}
         showAllLink={false}
-        title="Terminy na najbliższe 7 dni"
-        intro="Kliknij „Zapisz się”, aby zarezerwować miejsce. Jeśli grupa jest pełna, dopiszemy Cię na listę rezerwową."
+        title="Najbliższe *zajęcia*"
+        intro="Kliknij zajęcia, żeby zapisać się w kilka sekund. Gdy grupa jest pełna, dopiszemy Cię na listę rezerwową."
       />
     </>
   );

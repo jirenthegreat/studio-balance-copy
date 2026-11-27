@@ -27,7 +27,7 @@ function TeamInner({ instructors }) {
 
         <div className="mt-12 grid gap-6 md:grid-cols-[1.4fr_1fr]">
           <Reveal>
-            <article className="flex h-full flex-col overflow-hidden border border-graphite/12 bg-bone sm:flex-row">
+            <article className="flex h-full flex-col overflow-hidden bg-bone sm:flex-row">
               <Image
                 src={lead.photo}
                 alt={lead.name}
@@ -35,7 +35,7 @@ function TeamInner({ instructors }) {
               />
               <div className="flex flex-1 flex-col justify-center p-7">
                 <h3 className="text-[1.8rem] leading-tight">{lead.name}</h3>
-                <p className="mt-1 text-[0.68rem] uppercase tracking-[0.18em] text-graphite/45">
+                <p className="mt-1 text-[0.8rem] text-graphite/45">
                   {lead.role}
                 </p>
                 <p className="mt-4 line-clamp-6 text-[0.9rem] leading-[1.75] text-graphite/65">
@@ -51,7 +51,7 @@ function TeamInner({ instructors }) {
           <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-1">
             {rest.map((person, i) => (
               <Reveal key={person.id} delay={i * 80}>
-                <article className="flex items-center gap-4 border border-graphite/12 bg-bone/60 p-4">
+                <article className="flex items-center gap-4 bg-bone/60 p-4">
                   <Image
                     src={person.photo}
                     alt={person.name}
@@ -59,13 +59,13 @@ function TeamInner({ instructors }) {
                   />
                   <div className="min-w-0">
                     <h3 className="text-[1.15rem] leading-tight">{person.name}</h3>
-                    <p className="text-[0.62rem] uppercase tracking-[0.14em] text-graphite/45">
+                    <p className="text-[0.8rem] text-graphite/45">
                       {person.role}
                     </p>
                     <button
                       type="button"
                       onClick={() => setActive(person)}
-                      className="mt-2 text-[0.72rem] underline underline-offset-4 hover:text-graphite"
+                      className="mt-2 text-[0.85rem] underline underline-offset-4 hover:text-graphite"
                     >
                       Poznaj mnie
                     </button>

@@ -63,7 +63,7 @@ export default function Gallery({ images = SAMPLE_GALLERY }) {
                 fittingType="fit"
                 className="photo-warm max-h-[80vh] w-full"
               />
-              <figcaption className="mt-3 text-center text-[0.7rem] uppercase tracking-[0.18em] text-bone/80">
+              <figcaption className="mt-3 text-center text-[0.7rem] text-bone/80">
                 {active.caption}
               </figcaption>
             </figure>

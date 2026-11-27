@@ -35,7 +35,7 @@ export const SAMPLE_OFFERS = [
     level: "każdy poziom",
     for_whom: "dla osób, które chcą trenować precyzyjnie i z planem",
     price: null,
-    image: IMG.paula,
+    image: IMG.room,
     icon: "user",
     link: "/trening-personalny",
     is_group: false,
@@ -115,7 +115,7 @@ function FeaturedTile({ offer }) {
   return (
     <Link
       to={offer.link || "/grafik"}
-      className="group relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden border border-graphite/12 bg-graphite p-7 md:p-9"
+      className="group relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden rounded-[28px] bg-graphite p-7 md:p-9"
     >
       <Image
         src={offer.image || IMG.paulaClass}
@@ -127,7 +127,7 @@ function FeaturedTile({ offer }) {
         aria-hidden="true"
       />
       <div className="relative">
-        <p className="overline text-sand/80">
+        <p className="eyebrow bg-linen/15 text-linen">
           {offer.is_group === false ? "Indywidualnie" : "W grupie"}
         </p>
         <h3 className="mt-3 text-[2rem] leading-[1.05] text-bone md:text-[2.6rem]">
@@ -137,10 +137,10 @@ function FeaturedTile({ offer }) {
           {offer.description}
         </p>
         <div className="mt-6 flex items-center justify-between gap-4 border-t border-bone/20 pt-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.16em] text-bone/60">
-            {[offer.duration, offer.level].filter(Boolean).join(" · ")}
+          <span className="text-[0.8rem] text-bone/60">
+            {[offer.duration, offer.level].filter(Boolean).join(", ")}
           </span>
-          <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.2em] text-bone">
+          <span className="flex items-center gap-2 text-[0.6rem] text-bone">
             Zobacz
             <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
@@ -155,7 +155,7 @@ function Tile({ offer }) {
   return (
     <Link
       to={offer.link || "/grafik"}
-      className="group relative flex h-full flex-col overflow-hidden border border-graphite/12 bg-card transition-colors duration-500 hover:border-graphite/25"
+      className="group relative flex h-full flex-col overflow-hidden rounded-[24px] bg-linen transition-shadow duration-500 hover:shadow-[0_16px_36px_-22px_rgba(43,29,26,0.45)]"
     >
       <div className="relative h-36 overflow-hidden bg-sand/40">
         {offer.image ? (
@@ -169,7 +169,7 @@ function Tile({ offer }) {
             className="flex h-full items-center justify-center"
             style={{
               background:
-                "radial-gradient(circle at 50% 20%, #EFE5D8 0%, #E8DCCB 70%)",
+                "radial-gradient(circle at 50% 20%, #EEF0EA 0%, #DCE3D6 75%)",
             }}
           >
             <Icon
@@ -179,23 +179,23 @@ function Tile({ offer }) {
             />
           </div>
         )}
-        <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-bone/90 text-graphite opacity-0 transition-all duration-300 group-hover:opacity-100">
+        <span className="absolute right-3 top-3 flex h-9 w-9 items-center justify-center rounded-full bg-linen/90 text-graphite opacity-0 transition-all duration-300 group-hover:opacity-100">
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-[1.25rem] leading-tight">{offer.name}</h3>
+        <h3 className="text-[1.3rem] leading-tight">{offer.name}</h3>
         <p className="mt-2 text-[0.82rem] leading-[1.7] text-graphite/60">
           {offer.description}
         </p>
         {offer.quote && (
-          <blockquote className="mt-4 border-l-2 border-rose/50 pl-3 font-heading text-[0.98rem] italic leading-snug text-graphite/75">
+          <blockquote className="mt-4 border-l-2 border-sage pl-3 font-serif text-[1.1rem] italic leading-snug text-graphite/75">
             „{offer.quote}”
           </blockquote>
         )}
-        <p className="mt-auto pt-5 text-[0.58rem] uppercase tracking-[0.16em] text-graphite/40">
-          {[offer.duration, offer.level].filter(Boolean).join(" · ")}
+        <p className="mt-auto pt-5 text-[0.8rem] text-graphite/40">
+          {[offer.duration, offer.level].filter(Boolean).join(", ")}
         </p>
       </div>
     </Link>
@@ -212,7 +212,7 @@ export default function Offer({ offers = SAMPLE_OFFERS }) {
         <Reveal>
           <SectionHeading
             overline="Oferta"
-            title="Siedem sposobów,|żeby zadbać o siebie."
+            title="Zajęcia, które *pasują do Ciebie.*"
             intro="Zajęcia grupowe w małych grupach i treningi indywidualne. Każda forma ma swój rytm — wybierz tę, która pasuje do Twojego tygodnia."
           />
         </Reveal>

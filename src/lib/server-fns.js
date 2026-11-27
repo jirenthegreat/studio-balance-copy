@@ -81,8 +81,31 @@ async function loadSchedule(base44, { from, to, instructorId } = {}) {
 
 /* ---------------------------- treści strony ---------------------------- */
 
+const EMPTY_CONTENT = {
+  types: [],
+  plans: [],
+  gallery: [],
+  reviews: [],
+  instructors: [],
+  sessions: [],
+  settings: null,
+};
+
 export const getSiteContent = createServerFn({ method: "GET" }).handler(
   async ({ context }) => {
+    // Lokalny podgląd bez platformy Base44: strona pokazuje dane przykładowe.
+    if (import.meta.env.DEV) {
+      try {
+        return await loadSiteContent(context);
+      } catch {
+        return EMPTY_CONTENT;
+      }
+    }
+    return loadSiteContent(context);
+  }
+);
+
+async function loadSiteContent(context) {
     const base44 = context.getBase44();
     const sr = base44.asServiceRole;
 
@@ -130,8 +153,7 @@ export const getSiteContent = createServerFn({ method: "GET" }).handler(
         senior_note: settings.senior_note,
       },
     };
-  }
-);
+}
 
 /* ------------------------- zajęcia grupowe ------------------------- */
 
@@ -401,8 +423,24 @@ export const cancelBookingByToken = createServerFn({ method: "POST" })
 
 /* ------------------------- trening personalny ------------------------- */
 
+// Lokalny podgląd bez platformy Base44: przykładowa trenerka i godziny.
+const DEMO_INSTRUCTOR = { id: "demo-paula", name: "Paula Kruszyńska", role: "Założycielka studia, trenerka", photo: "" };
+const DEMO_SLOTS = ["08:00", "09:00", "10:00", "12:00", "13:00"];
+
 export const getPersonalInstructors = createServerFn({ method: "GET" }).handler(
   async ({ context }) => {
+    if (import.meta.env.DEV) {
+      try {
+        return await loadPersonalInstructors(context);
+      } catch {
+        return [DEMO_INSTRUCTOR];
+      }
+    }
+    return loadPersonalInstructors(context);
+  }
+);
+
+async function loadPersonalInstructors(context) {
     const base44 = context.getBase44();
     const list = arr(
       await base44.asServiceRole.entities.Instructor.filter(
@@ -416,8 +454,7 @@ export const getPersonalInstructors = createServerFn({ method: "GET" }).handler(
       role: i.role,
       photo: i.photo,
     }));
-  }
-);
+}
 
 export const getPersonalAvailability = createServerFn({ method: "GET" })
   .validator(
@@ -427,6 +464,9 @@ export const getPersonalAvailability = createServerFn({ method: "GET" })
     })
   )
   .handler(async ({ data, context }) => {
+    if (import.meta.env.DEV && data.instructorId === DEMO_INSTRUCTOR.id) {
+      return { slots: weekdayOf(data.date) > 5 ? [] : DEMO_SLOTS };
+    }
     const base44 = context.getBase44();
     const sr = base44.asServiceRole;
     const weekday = weekdayOf(data.date);
@@ -869,4 +909,141 @@ export const ensureSettings = createServerFn({ method: "POST" })
     if (list.length) return { ok: true, id: list[0].id };
     const created = await sr.entities.StudioSettings.create(DEFAULT_SETTINGS);
     return { ok: true, id: created.id };
+  });
+/* ------------------------- dane startowe (demo) ------------------------- */
+
+const SEED_REVIEWS = [
+  ["Jan W.", "Paula to wspaniały trener personalny. Z uśmiechem i energią prowadzi każde zajęcia. Ma bardzo indywidualne podejście do klienta. Miejsce w centrum Lublina, z fajnym widokiem. Profesjonalnie, miło, ludzko! Polecam!"],
+  ["Kuba M.", "Trening przemyślany pod kątem celu, fizjologii i motoryki. Ćwiczenia zróżnicowane, intensywne z dużą uważnością na ułożenie ciała. Pani Paula jest profesjonalistką pod każdym względem, w pełni polecam!"],
+  ["Katarzyna P.", "Cudowne, przyjazne miejsce. Tak treningi w grupie jak i indywidualne spotkania. Guru tego miejsca, Paula oraz wszyscy pozostali trenerzy poprowadzą przez pot i łzy do sukcesu. Miejsce do którego się tęskni i wraca. Polecam"],
+  ["Ewelina A.", "Miejsce pełne siły, mocy i wylanego potu ale też spokoju, wyciszenia i relaksu. Super trenerzy motywują do pokonywania własnych barier a właścicielka to taka wisienka na torcie 😊 Polecam to miejsce bez żadnych oporów 💪❤️"],
+  ["P. G.", "Studio Balance to moje miejsce. Cudowna trenerka, niezwykła kobieta i wspaniały człowiek. Nikt mnie nigdy nie zmotywował do ćwiczeń tak jak ona. Kształtuje ciało, ale przy okazji i ducha :) polecam"],
+  ["Iwona N.", "Serdecznie polecam Studio Balance. Spining z Paulą najlepszy!!! A jeżdżę już bardzo długo. Miejsce klimatyczne, zajęcia prowadzone profesjonalnie."],
+  ["Mateusz W.", "Świetne miejsce prowadzone z pasją i zamiłowaniem do sportu. Głównie polecam zajęcia indoor cycling!"],
+];
+
+const SEED_TYPES = [
+  { name: "Trening personalny", slug: "personalny", duration: 60, level: "każdy poziom", for_whom: "dla osób, które chcą trenować precyzyjnie i z planem", description: "Praca jeden na jeden lub w parze, dopasowana do Twojego ciała i celu. Obejmuje też treningi prozdrowotne — przy bólach kręgosłupa, po kontuzjach — dobierane indywidualnie.", color: "#7F9779", icon: "user", is_group: false },
+  { name: "Pilates + relaksacja", slug: "pilates", duration: 60, level: "każdy poziom", for_whom: "dla osób, które chcą wzmocnić ciało i się wyciszyć", description: "Spokojny pilates na macie z elementami oddechu i rozluźniania. Wzmacnia głębokie mięśnie i wycisza głowę.", color: "#C98F86", icon: "flower", is_group: true },
+  { name: "Spinning Fit", slug: "spinning", duration: 50, level: "średni", for_whom: "dla osób, które lubią intensywną pracę przy muzyce", description: "Interwały na rowerach stacjonarnych przy muzyce. Dużo energii, zero monotonii.", color: "#C9A27A", icon: "bike", is_group: true },
+  { name: "Stretching", slug: "stretching", duration: 55, level: "każdy poziom", for_whom: "dla osób, które dużo siedzą lub intensywnie trenują", description: "Godzina na rozluźnienie pleców, bioder i barków.", color: "#8FA2A6", icon: "wind", is_group: true },
+  { name: "Trening obwodowy", slug: "obwodowy", duration: 50, level: "średni", for_whom: "dla osób, które chcą siły i kondycji w jednym treningu", description: "Krótkie stacje, całe ciało, wyraźny plan.", color: "#A8A07A", icon: "activity", is_group: true },
+  { name: "Fit Mama", slug: "fit-mama", duration: 55, level: "łagodny", for_whom: "dla mam po porodzie, z maluchem obok", description: "Zajęcia dla mam z dzieckiem: bezpieczny powrót do formy, praca z dnem miednicy i brzuchem.", quote: "Nigdzie nie znajdziesz miejsca bardziej przyjaznego dla matki z dzieckiem.", color: "#D4A48C", icon: "heart", is_group: true },
+];
+
+const SEED_SLOTS = [
+  ["Pilates + relaksacja", 1, "10:00"],
+  ["Fit Mama", 2, "10:00"],
+  ["Spinning Fit", 3, "18:00"],
+  ["Stretching", 4, "18:00"],
+  ["Trening obwodowy", 4, "19:15"],
+  ["Pilates + relaksacja", 5, "18:00"],
+];
+
+const SEED_PLANS = [
+  { name: "Wejście jednorazowe", description: "Jedne zajęcia grupowe", unit: "za wejście" },
+  { name: "Karnet 4 wejścia", description: "4 zajęcia grupowe", unit: "karnet", entries: 4 },
+  { name: "Karnet 8 wejść", description: "8 zajęć grupowych", unit: "karnet", entries: 8, featured: true },
+  { name: "Trening personalny", description: "60 minut, indywidualnie lub w parze", unit: "za sesję", link: "/trening-personalny" },
+];
+
+/**
+ * Wypełnia pustą bazę danymi startowymi (tylko admin). Uzupełnia wyłącznie
+ * puste tabele, więc ponowne kliknięcie niczego nie dubluje.
+ */
+export const seedDemoData = createServerFn({ method: "POST" })
+  .middleware([requireUser])
+  .handler(async ({ context }) => {
+    requireAdmin(context);
+    const sr = context.getBase44().asServiceRole;
+    const done = [];
+    const isEmpty = async (entity) =>
+      arr(await sr.entities[entity].list({ limit: 1 })).length === 0;
+
+    let paula = arr(await sr.entities.Instructor.list({ limit: 1 }))[0];
+    if (!paula) {
+      paula = await sr.entities.Instructor.create({
+        name: "Paula Kruszyńska",
+        role: "Założycielka studia, trenerka",
+        bio: "Jestem Paula. Prowadzę Studio Balance – kameralne miejsce, w którym trening jest dopasowany do Ciebie, a nie Ty do treningu.",
+        specializations: ["pilates", "spinning", "trening personalny", "zajęcia dla mam"],
+        certificate: "Aktywność w ciąży i po porodzie",
+        certificate_issuer: "Fitness University",
+        does_personal_training: true,
+        order: 1,
+        active: true,
+      });
+      done.push("instruktorka");
+    }
+
+    let types = arr(await sr.entities.ClassType.list({ limit: 50 }));
+    if (!types.length) {
+      types = await sr.entities.ClassType.bulkCreate(
+        SEED_TYPES.map((t, i) => ({ ...t, active: true, order: i + 1 }))
+      );
+      types = arr(types);
+      done.push("oferta");
+    }
+
+    if (await isEmpty("RecurringSlot")) {
+      const byName = Object.fromEntries(types.map((t) => [t.name, t]));
+      await sr.entities.RecurringSlot.bulkCreate(
+        SEED_SLOTS.filter(([name]) => byName[name]).map(([name, weekday, time]) => ({
+          class_type_id: byName[name].id,
+          class_name: name,
+          color: byName[name].color,
+          duration: byName[name].duration,
+          instructor_id: paula.id,
+          instructor_name: "Paula",
+          instructor_photo: paula.photo || "",
+          weekday,
+          time,
+          capacity: 4,
+          active: true,
+        }))
+      );
+      done.push("grafik cykliczny");
+    }
+
+    if (await isEmpty("Availability")) {
+      await sr.entities.Availability.bulkCreate(
+        [1, 2, 3, 4, 5].map((weekday) => ({
+          instructor_id: paula.id,
+          instructor_name: paula.name,
+          weekday,
+          start_time: "08:00",
+          end_time: "14:00",
+          active: true,
+        }))
+      );
+      done.push("dostępność na treningi personalne");
+    }
+
+    if (await isEmpty("Review")) {
+      await sr.entities.Review.bulkCreate(
+        SEED_REVIEWS.map(([author, text], i) => ({
+          author,
+          text,
+          rating: 5,
+          source: "Google",
+          published: true,
+          order: i + 1,
+        }))
+      );
+      done.push("opinie");
+    }
+
+    if (await isEmpty("PricingPlan")) {
+      await sr.entities.PricingPlan.bulkCreate(
+        SEED_PLANS.map((p, i) => ({ ...p, active: true, order: i + 1 }))
+      );
+      done.push("cennik");
+    }
+
+    if (await isEmpty("StudioSettings")) {
+      await sr.entities.StudioSettings.create(DEFAULT_SETTINGS);
+      done.push("ustawienia");
+    }
+
+    return { ok: true, done };
   });

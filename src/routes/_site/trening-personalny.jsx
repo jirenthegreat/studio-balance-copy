@@ -30,52 +30,46 @@ function PersonalPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-graphite pb-16 pt-32 md:pt-40">
-        <Image
-          src={IMG.paula}
-          alt="Paula Kruszyńska w studiu Balance"
-          className="photo-warm absolute inset-0 h-full w-full opacity-30"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-graphite via-graphite/85 to-graphite/40" aria-hidden="true" />
-        <div className="relative mx-auto max-w-6xl px-5 md:px-10">
-          <p className="overline flex items-center gap-3 text-sand/70">
-            <span className="h-px w-7 bg-sand/40" aria-hidden="true" />
-            Trening personalny
-          </p>
-          <h1 className="mt-5 max-w-2xl text-[2.3rem] leading-[1.05] text-bone md:text-[3.4rem]">
-            Godzina tylko dla Ciebie.
-          </h1>
-          <p className="mt-5 max-w-xl text-[0.95rem] leading-[1.8] text-bone/75">
-            Plan dopasowany do Twojego ciała, celu i tygodnia. Pracujemy nad
-            siłą, kondycją i techniką — w tempie, które do Ciebie pasuje.
-          </p>
+      <section className="pb-6 pt-32 md:pt-40">
+        <div className="mx-auto grid max-w-6xl items-end gap-10 px-5 md:grid-cols-[1.2fr_0.8fr] md:px-10">
+          <div>
+            <h1 className="text-[clamp(2.8rem,7vw,5.6rem)] leading-[0.95]">
+              Godzina tylko <em>dla Ciebie.</em>
+            </h1>
+            <p className="mt-5 max-w-xl text-[1.02rem] leading-[1.7] text-graphite/65">
+              Plan dopasowany do Twojego ciała, celu i tygodnia. Pracujemy nad
+              siłą, kondycją i techniką, w tempie, które do Ciebie pasuje.
+            </p>
+            <ul className="mt-7 flex flex-wrap gap-2">
+              {["60 minut", "indywidualnie lub w parze", "termin potwierdzany mailem"].map((t) => (
+                <li key={t} className="rounded-full bg-linen px-4 py-2 text-[0.9rem] text-graphite/75">
+                  {t}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="relative hidden overflow-hidden rounded-[28px] md:block">
+            <Image
+              src={IMG.paula}
+              alt="Paula Kruszyńska w Studio Balance"
+              className="photo-warm aspect-[4/5] w-full"
+            />
+          </div>
         </div>
       </section>
 
       <section className="py-16 md:py-24">
-        <div className="mx-auto max-w-3xl px-5 md:px-10">
-          <div className="mb-10 grid gap-6 border border-graphite/12 bg-bone p-6 sm:grid-cols-3">
-            {[
-              ["60 minut", "czas jednej sesji"],
-              ["1:1 lub w parze", "forma treningu"],
-              ["Potwierdzenie", "mailem od Pauli"],
-            ].map(([title, sub]) => (
-              <div key={title}>
-                <p className="text-[0.82rem] uppercase tracking-[0.14em]">{title}</p>
-                <p className="mt-1 text-[0.78rem] text-graphite/50">{sub}</p>
-              </div>
-            ))}
-          </div>
-
+        <div className="mx-auto max-w-6xl px-5 md:px-10"><div className="max-w-3xl">
           {instructors.length ? (
             <PersonalBookingFlow instructors={instructors} today={today} />
           ) : (
-            <p className="border border-graphite/15 bg-sand/30 p-6 text-[0.9rem] text-graphite/60">
-              Zapisy na treningi personalne są chwilowo wstrzymane. Napisz do
-              nas na Messengerze — ustalimy termin indywidualnie.
+            <p className="rounded-2xl bg-linen p-6 text-[0.95rem] text-graphite/70">
+              Zapisy online na treningi personalne są chwilowo wyłączone.
+              Zadzwoń: <a href="tel:+48730730357" className="underline">730 730 357</a>,
+              ustalimy termin.
             </p>
           )}
-        </div>
+        </div></div>
       </section>
     </>
   );

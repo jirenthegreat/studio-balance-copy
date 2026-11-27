@@ -22,27 +22,21 @@ export function SpiralMark({ className = "", strokeWidth = 1.6 }) {
   );
 }
 
-/** Logotyp poziomy: STUDIO ⟡ BALANCE z szerokim rozstrzeleniem. */
+/** Logotyp: znak spirali + „Studio Balance”. */
 export default function Logo({ className = "", size = "md", showText = true }) {
-  const scale = {
-    sm: "text-[0.6rem] gap-2",
-    md: "text-[0.68rem] gap-2.5",
-    lg: "text-[0.95rem] gap-4",
-  }[size];
-
-  const markSize = { sm: "h-4 w-4", md: "h-5 w-5", lg: "h-8 w-8" }[size];
+  const text = { sm: "text-[0.95rem]", md: "text-[1.08rem]", lg: "text-[1.5rem]" }[size];
+  const markSize = { sm: "h-5 w-5", md: "h-6 w-6", lg: "h-9 w-9" }[size];
 
   return (
     <span
-      className={cn("inline-flex items-center text-current", scale, className)}
+      className={cn("inline-flex items-center gap-2 text-current", className)}
       aria-label="Studio Balance"
     >
+      <SpiralMark className={markSize} strokeWidth={2.2} />
       {showText && (
-        <span className="font-light uppercase tracking-[0.36em]">Studio</span>
-      )}
-      <SpiralMark className={markSize} />
-      {showText && (
-        <span className="font-light uppercase tracking-[0.36em]">Balance</span>
+        <span className={cn("font-medium tracking-[-0.03em]", text)}>
+          Studio <span className="accent text-[1.12em]">Balance</span>
+        </span>
       )}
     </span>
   );

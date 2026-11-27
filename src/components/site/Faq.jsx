@@ -10,7 +10,7 @@ import Reveal from "./Reveal";
 const FAQ = [
   {
     q: "Czy muszę mieć doświadczenie w treningu?",
-    a: "Nie musisz być wytrenowana, ale większość osób u nas ćwiczy regularnie — i to jest dobry punkt wyjścia. Technikę dopasowujemy do poziomu grupy, a przy treningu indywidualnym zaczynamy od Twojego aktualnego stanu. Jeśli wracasz po dłuższej przerwie, powiedz o tym przed zajęciami.",
+    a: "Nie. W grupie są najwyżej cztery osoby, więc trenerka dobiera ćwiczenia i obciążenie do każdej z nich. Jeśli zaczynasz albo wracasz po przerwie, napisz o tym w uwagach przy zapisie.",
   },
   {
     q: "Co zabrać na zajęcia?",
@@ -26,7 +26,7 @@ const FAQ = [
   },
   {
     q: "Gdzie zaparkować?",
-    a: "Studio mieści się w Unia Art Residence przy Alejach Racławickich 10/14. Miejsca parkingowe znajdziesz wzdłuż Alej oraz na parkingach sąsiednich budynków. Wieczorami bywa tłoczno, więc warto przyjść kilka minut wcześniej.",
+    a: "Studio mieści się w Unia Art Residence przy Alejach Racławickich 10/14. Zapytaj przy zapisie, gdzie najwygodniej zaparkować — podpowiemy.",
   },
   {
     q: "Jak mogę zapłacić?",

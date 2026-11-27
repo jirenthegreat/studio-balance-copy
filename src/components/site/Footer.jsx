@@ -6,13 +6,13 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
-import Logo, { SpiralMark } from "./Logo";
+import Logo from "./Logo";
 import { CONTACT } from "@/lib/images";
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden bg-sand/70">
-      <div className="mx-auto max-w-6xl px-5 pb-10 pt-16 md:px-10 md:pt-20">
+    <footer className="relative overflow-hidden bg-bone">
+      <div className="mx-auto max-w-6xl px-5 pb-10 pt-16 md:px-10 md:pt-20"><div className="rounded-[28px] bg-linen p-7 md:p-10">
         <div className="grid gap-12 md:grid-cols-[1.4fr_1fr_1fr]">
           <div>
             <Logo size="lg" />
@@ -21,41 +21,45 @@ export default function Footer() {
               i spokój — w grupach do czterech osób.
             </p>
             <div className="mt-6 flex gap-3">
+              {CONTACT.facebook && (
               <a
                 href={CONTACT.facebook}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Studio Balance na Facebooku"
-                className="flex h-11 w-11 items-center justify-center border border-graphite/25 transition-colors hover:bg-graphite hover:text-bone"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-graphite/[0.07] transition-colors hover:bg-graphite hover:text-linen"
               >
                 <Facebook className="h-4 w-4" />
               </a>
+              )}
               <a
                 href={CONTACT.instagram}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Studio Balance na Instagramie (@studio_balance_lbn)"
-                className="flex h-11 w-11 items-center justify-center border border-graphite/25 transition-colors hover:bg-graphite hover:text-bone"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-graphite/[0.07] transition-colors hover:bg-graphite hover:text-linen"
               >
                 <Instagram className="h-4 w-4" />
               </a>
+              {CONTACT.messenger && (
               <a
                 href={CONTACT.messenger}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Napisz do nas na Messengerze"
-                className="flex h-11 w-11 items-center justify-center border border-graphite/25 transition-colors hover:bg-graphite hover:text-bone"
+                className="flex h-11 w-11 items-center justify-center rounded-full bg-graphite/[0.07] transition-colors hover:bg-graphite hover:text-linen"
               >
                 <MessageCircle className="h-4 w-4" />
               </a>
+              )}
             </div>
           </div>
 
           <div>
-            <p className="overline text-graphite/50">Kontakt</p>
+            <p className="text-[0.95rem] font-medium">Kontakt</p>
             <ul className="mt-5 space-y-3 text-sm text-graphite/80">
               <li className="flex gap-3">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-rose" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-sage" />
                 <span>
                   {CONTACT.place}
                   <br />
@@ -66,7 +70,7 @@ export default function Footer() {
               </li>
               <li>
                 <a href={CONTACT.phoneHref} className="flex gap-3 hover:text-graphite">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-rose" />
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-sage" />
                   {CONTACT.phone}
                 </a>
               </li>
@@ -74,7 +78,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <p className="overline text-graphite/50">Studio</p>
+            <p className="text-[0.95rem] font-medium">Studio</p>
             <ul className="mt-5 space-y-3 text-sm text-graphite/80">
               <li>
                 <Link to="/grafik" className="hover:text-graphite">
@@ -105,7 +109,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-14 flex flex-col gap-4 border-t border-graphite/15 pt-6 text-[0.72rem] text-graphite/60 md:flex-row md:items-center md:justify-between">
+        <div className="mt-14 flex flex-col gap-4 border-t border-graphite/15 pt-6 text-[0.85rem] text-graphite/60 md:flex-row md:items-center md:justify-between">
           <p>© {new Date().getFullYear()} Studio Balance. Wszelkie prawa zastrzeżone.</p>
           <div className="flex flex-wrap gap-6">
             <Link to="/polityka-prywatnosci" className="hover:text-graphite">
@@ -124,15 +128,12 @@ export default function Footer() {
           </div>
         </div>
       </div>
+      </div>
 
-      <div className="pointer-events-none flex items-center justify-center gap-6 pb-8 opacity-[0.09]">
-        <span className="font-heading text-[13vw] leading-none tracking-[0.1em] uppercase">
-          Studio
-        </span>
-        <SpiralMark className="h-[9vw] w-[9vw]" strokeWidth={1} />
-        <span className="font-heading text-[13vw] leading-none tracking-[0.1em] uppercase">
-          Balance
-        </span>
+      <div className="pointer-events-none mx-auto max-w-[96rem] overflow-hidden px-3 pb-2" aria-hidden="true">
+        <p className="whitespace-nowrap text-center text-[14.5vw] font-medium leading-[0.85] tracking-[-0.07em] text-graphite">
+          Studio <span className="accent">Balance</span>
+        </p>
       </div>
     </footer>
   );

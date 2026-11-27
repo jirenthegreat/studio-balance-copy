@@ -74,19 +74,19 @@ function CancelPage() {
           </div>
         ) : (
           <div className="border border-graphite/15 bg-bone p-8">
-            <p className="overline text-rose">Twoja rezerwacja</p>
+            <p className="eyebrow text-rose">Twoja rezerwacja</p>
             <h1 className="mt-4 text-[1.9rem] leading-tight">{booking.class_name}</h1>
             <dl className="mt-6 space-y-3 border-t border-graphite/10 pt-5 text-[0.9rem]">
               <div className="flex justify-between gap-6">
-                <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Termin</dt>
+                <dt className="text-[0.8rem] text-graphite/45">Termin</dt>
                 <dd className="text-right">{formatDatePl(booking.date)}, {booking.time}</dd>
               </div>
               <div className="flex justify-between gap-6">
-                <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Prowadząca</dt>
+                <dt className="text-[0.8rem] text-graphite/45">Prowadząca</dt>
                 <dd className="text-right">{booking.instructor}</dd>
               </div>
               <div className="flex justify-between gap-6">
-                <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Status</dt>
+                <dt className="text-[0.8rem] text-graphite/45">Status</dt>
                 <dd className="text-right capitalize">{booking.status.replace("_", " ")}</dd>
               </div>
             </dl>

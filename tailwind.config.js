@@ -13,11 +13,12 @@ export default {
   			sm: 'calc(var(--radius) - 4px)'
   		},
   		colors: {
-  			bone: '#F7F3EE',
-  			sand: '#E8DCCB',
-  			graphite: '#2B2B2B',
-  			rose: '#B9788F',
-  			sage: '#9DAA94',
+  			bone: '#F3ECE4',
+  			linen: '#FBF7F2',
+  			sand: '#E7D9CB',
+  			graphite: '#2B1D1A',
+  			rose: '#B97D74',
+  			sage: '#7F9779',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -73,6 +74,8 @@ export default {
   			heading: ['var(--font-heading)'],
   			body: ['var(--font-body)'],
   			display: ['var(--font-display)'],
+  			serif: ['var(--font-serif)'],
+  			hand: ['var(--font-hand)'],
   			mono: ['var(--font-mono)']
   		},
   		keyframes: {

@@ -21,17 +21,14 @@ export default function MeetPaula({ instructor = FALLBACK }) {
   const tags = person.specializations || FALLBACK.specializations;
 
   return (
-    <section id="paula" className="bg-sand/40 py-24 md:py-32">
-      <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 md:grid-cols-[1fr_0.9fr] md:gap-16 md:px-10">
+    <section id="paula" className="py-24 md:py-32">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 rounded-[32px] bg-linen p-5 md:grid-cols-[1fr_0.85fr] md:gap-14 md:p-12 mx-5 md:mx-auto xl:mx-auto">
         <Reveal>
-          <p className="overline flex items-center gap-3 text-rose">
-            <span className="h-px w-7 bg-rose/50" aria-hidden="true" />
-            Poznaj mnie
-          </p>
-          <h2 className="mt-5 text-[2.15rem] leading-[1.06] sm:text-[2.6rem] md:text-[3.2rem]">
-            {person.name}
+          <p className="eyebrow">Poznaj mnie</p>
+          <h2 className="mt-5 text-[2.4rem] leading-[1] sm:text-[3rem] md:text-[3.6rem]">
+            Paula <em>Kruszyńska</em>
           </h2>
-          <p className="mt-2 text-[0.72rem] uppercase tracking-[0.2em] text-graphite/50">
+          <p className="mt-2 text-[0.85rem] text-graphite/50">
             {person.role}
           </p>
 
@@ -57,21 +54,21 @@ export default function MeetPaula({ instructor = FALLBACK }) {
             {tags.map((tag) => (
               <li
                 key={tag}
-                className="border border-graphite/20 px-3.5 py-1.5 text-[0.66rem] uppercase tracking-[0.16em] text-graphite/70"
+                className="rounded-full bg-graphite/[0.06] px-3.5 py-1.5 text-[0.85rem] text-graphite/75"
               >
                 {tag}
               </li>
             ))}
           </ul>
 
-          <div className="mt-8 flex items-start gap-4 border border-graphite/15 bg-bone p-5">
+          <div className="mt-8 flex items-start gap-4 rounded-2xl bg-sage/15 p-5">
             <Award className="mt-0.5 h-5 w-5 shrink-0 text-sage" aria-hidden="true" />
             <div>
-              <p className="overline text-[0.6rem] text-graphite/45">Certyfikat</p>
-              <p className="mt-1.5 font-heading text-lg leading-snug">
+              <p className="text-[0.85rem] text-graphite/55">Certyfikat</p>
+              <p className="mt-1.5 text-[1.05rem] font-medium leading-snug">
                 {person.certificate || "Aktywność w ciąży i po porodzie"}
               </p>
-              <p className="text-[0.78rem] text-graphite/55">
+              <p className="text-[0.85rem] text-graphite/55">
                 {person.certificate_issuer || "Fitness University"}
               </p>
             </div>
@@ -83,17 +80,16 @@ export default function MeetPaula({ instructor = FALLBACK }) {
         </Reveal>
 
         <Reveal delay={120} className="relative">
-          <div className="overflow-hidden rounded-t-[12rem] rounded-b-[1.5rem]">
+          <div className="overflow-hidden rounded-[24px]">
             <Image
               src={person.photo}
               alt={`${person.name} — założycielka Studio Balance`}
               className="photo-warm aspect-[3/4] w-full"
             />
           </div>
-          <div
-            className="pointer-events-none absolute -left-6 bottom-10 hidden h-24 w-24 rounded-full border border-rose/40 md:block"
-            aria-hidden="true"
-          />
+          <p className="absolute -bottom-3 left-4 -rotate-3 rounded-full bg-[#FFFDFA] px-4 py-1.5 font-hand text-[1.2rem] shadow-sm">
+            do zobaczenia na zajęciach!
+          </p>
         </Reveal>
       </div>
     </section>

@@ -76,6 +76,18 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
     }
     setError("");
     setSending(true);
+    // Lokalny podgląd: przykładowa trenerka, bez zapisu do bazy.
+    if (instructorId.startsWith("demo-")) {
+      await new Promise((r) => setTimeout(r, 600));
+      setResult({
+        date,
+        time,
+        training_type: type,
+        instructor: instructors.find((i) => i.id === instructorId)?.name,
+      });
+      setSending(false);
+      return;
+    }
     try {
       const res = await createPersonalBookingRequest({
         data: {
@@ -105,25 +117,25 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
 
   if (result) {
     return (
-      <div className="step-enter border border-graphite/15 bg-bone p-7 md:p-10">
+      <div className="step-enter rounded-[28px] bg-linen p-7 md:p-10">
         <BookingSuccess />
         <h2 className="mt-6 text-[1.8rem] leading-tight md:text-[2.1rem]">
-          Zgłoszenie przyjęte
+          Zgłoszenie <em>przyjęte.</em>
         </h2>
         <p className="mt-3 max-w-md text-[0.92rem] leading-[1.8] text-graphite/65">
           Termin jest wstępnie zarezerwowany. Paula potwierdzi go mailem.
         </p>
-        <dl className="mt-7 space-y-3 border-t border-graphite/10 pt-6 text-[0.9rem]">
+        <dl className="mt-7 space-y-3 rounded-2xl bg-bone/70 p-5 text-[0.9rem]">
           <div className="flex justify-between gap-6">
-            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Termin</dt>
+            <dt className="text-[0.8rem] text-graphite/45">Termin</dt>
             <dd className="text-right">{formatDatePl(result.date)}, {result.time}</dd>
           </div>
           <div className="flex justify-between gap-6">
-            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Trenerka</dt>
+            <dt className="text-[0.8rem] text-graphite/45">Trenerka</dt>
             <dd className="text-right">{result.instructor}</dd>
           </div>
           <div className="flex justify-between gap-6">
-            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Forma</dt>
+            <dt className="text-[0.8rem] text-graphite/45">Forma</dt>
             <dd className="text-right">{result.training_type === "para" ? "W parze" : "Indywidualnie"}</dd>
           </div>
         </dl>
@@ -146,10 +158,10 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
                 type="button"
                 onClick={() => setInstructorId(person.id)}
                 className={cn(
-                  "border px-5 py-3 text-[0.72rem] uppercase tracking-[0.14em] transition-colors",
+                  "rounded-full px-5 py-3 text-[0.92rem] transition-colors",
                   instructorId === person.id
-                    ? "border-graphite bg-graphite text-bone"
-                    : "border-graphite/20 text-graphite/70 hover:border-graphite/50"
+                    ? "bg-graphite text-linen"
+                    : "bg-linen text-graphite/75 hover:bg-[#fffdfa]"
                 )}
               >
                 {person.name}
@@ -167,20 +179,20 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
               type="button"
               onClick={() => setDate(d)}
               className={cn(
-                "flex w-[74px] shrink-0 flex-col items-center border px-2 py-3 transition-colors",
+                "flex w-[74px] shrink-0 flex-col items-center rounded-2xl px-2 py-3 transition-colors",
                 date === d
-                  ? "border-graphite bg-graphite text-bone"
-                  : "border-graphite/20 text-graphite/70 hover:border-graphite/50"
+                  ? "bg-graphite text-linen"
+                  : "bg-linen text-graphite hover:bg-[#fffdfa]"
               )}
             >
-              <span className="text-[0.6rem] uppercase tracking-[0.12em] opacity-70">
+              <span className="text-[0.82rem] opacity-70">
                 {weekdayShort(d)}
               </span>
-              <span className="mt-1 font-heading text-xl leading-none">
+              <span className="mt-1 text-[1.35rem] font-medium leading-none tracking-[-0.03em]">
                 {d.slice(8, 10)}
               </span>
-              <span className="mt-1 text-[0.6rem] opacity-60">
-                {d.slice(5, 7)}.{d.slice(0, 4)}
+              <span className="mt-1 text-[0.75rem] opacity-60">
+                {d.slice(5, 7)}.{d.slice(2, 4)}
               </span>
             </button>
           ))}
@@ -200,10 +212,10 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
                 type="button"
                 onClick={() => setTime(slot)}
                 className={cn(
-                  "min-h-[46px] border px-5 text-[0.85rem] transition-colors",
+                  "min-h-[46px] rounded-full px-5 text-[0.95rem] transition-colors",
                   time === slot
-                    ? "border-sage bg-sage/20 text-graphite"
-                    : "border-graphite/20 text-graphite/70 hover:border-sage"
+                    ? "bg-sage text-linen"
+                    : "bg-linen text-graphite/80 hover:bg-sage/20"
                 )}
               >
                 {slot}
@@ -211,12 +223,12 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
             ))}
           </div>
         ) : (
-          <p className="flex items-center gap-2 border border-graphite/15 bg-sand/30 px-5 py-4 text-[0.85rem] text-graphite/60">
+          <p className="flex items-center gap-2 rounded-2xl bg-linen px-5 py-4 text-[0.85rem] text-graphite/60">
             <CalendarDays className="h-4 w-4" aria-hidden="true" />
             Brak wolnych terminów tego dnia. Wybierz inny dzień.
           </p>
         )}
-        <p className="mt-3 flex items-center gap-2 text-[0.72rem] text-graphite/40">
+        <p className="mt-3 flex items-center gap-2 text-[0.85rem] text-graphite/40">
           <Clock className="h-3.5 w-3.5" aria-hidden="true" />
           Trening trwa 60 minut.
         </p>
@@ -248,10 +260,10 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
               type="button"
               onClick={() => setType(option.value)}
               className={cn(
-                "min-h-[46px] border px-5 text-[0.72rem] uppercase tracking-[0.14em] transition-colors",
+                "min-h-[46px] rounded-full px-5 text-[0.92rem] transition-colors",
                 type === option.value
-                  ? "border-graphite bg-graphite text-bone"
-                  : "border-graphite/20 text-graphite/70 hover:border-graphite/50"
+                  ? "bg-graphite text-linen"
+                  : "bg-linen text-graphite/75 hover:bg-[#fffdfa]"
               )}
             >
               {option.label}
@@ -272,7 +284,7 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
           </Field>
         </div>
 
-        <label className="mt-4 flex items-start gap-3 text-[0.78rem] leading-relaxed text-graphite/65">
+        <label className="mt-4 flex items-start gap-3 text-[0.85rem] leading-relaxed text-graphite/65">
           <Checkbox
             checked={form.terms}
             onCheckedChange={(v) => setForm((f) => ({ ...f, terms: v === true }))}
@@ -282,7 +294,7 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
           <span>Akceptuję regulamin zajęć Studio Balance.</span>
         </label>
 
-        <label className="mt-3 flex items-start gap-3 text-[0.78rem] leading-relaxed text-graphite/65">
+        <label className="mt-3 flex items-start gap-3 text-[0.85rem] leading-relaxed text-graphite/65">
           <Checkbox
             checked={form.consent}
             onCheckedChange={(v) => setForm((f) => ({ ...f, consent: v === true }))}
@@ -305,7 +317,7 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
           {sending && <Loader2 className="h-4 w-4 animate-spin" />}
           {sending ? "Wysyłanie…" : "Wyślij zgłoszenie"}
         </button>
-        <p className="mt-3 text-[0.75rem] text-graphite/45">
+        <p className="mt-3 text-[0.85rem] text-graphite/45">
           Termin jest wstępny — potwierdzimy go mailem.
         </p>
       </Step>
@@ -316,9 +328,9 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
 function Step({ number, title, children }) {
   return (
     <section>
-      <div className="mb-5 flex items-baseline gap-3">
-        <span className="text-[0.65rem] tracking-[0.2em] text-rose">{number}</span>
-        <h2 className="text-[1.35rem] leading-tight">{title}</h2>
+      <div className="mb-5 flex items-center gap-3">
+        <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-sage/20 text-[0.85rem] font-medium text-graphite">{Number(number)}</span>
+        <h2 className="text-[1.5rem] leading-tight">{title}</h2>
       </div>
       {children}
     </section>
@@ -330,7 +342,7 @@ function Field({ label, id, children }) {
     <div>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-graphite/50"
+        className="mb-1.5 block text-[0.8rem] text-graphite/50"
       >
         {label}
       </label>
