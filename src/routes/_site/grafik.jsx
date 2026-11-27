@@ -47,8 +47,8 @@ function GrafikPage() {
             )}
           </h1>
           <p className="mt-5 max-w-xl text-[0.95rem] leading-[1.8] text-ink/55">
-            Kameralne grupy do czterech osób. Wybierz termin i zapisz się w
-            kilka sekund — potwierdzenie przyjdzie mailem.
+            Kameralne grupy do czterech osób. Kliknij zajęcia, żeby
+            zarezerwować miejsce — potwierdzenie przyjdzie mailem.
           </p>
           {person && (
             <Link
@@ -66,8 +66,8 @@ function GrafikPage() {
         sessions={filtered}
         demo={!instructor}
         showAllLink={false}
-        title="Terminy na *najbliższe 7 dni*"
-        intro="Kliknij „Zapisz się”, aby zarezerwować miejsce. Jeśli grupa jest pełna, dopiszemy Cię na listę rezerwową."
+        heading={null}
+        note={null}
       />
     </>
   );
