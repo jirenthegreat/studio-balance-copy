@@ -36,7 +36,7 @@ const FAQ = [
 
 export default function Faq() {
   return (
-    <section id="faq" className="bg-clay py-24 md:py-32">
+    <section id="faq" className="py-24 md:py-32">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-[0.8fr_1.2fr] md:gap-20 md:px-10">
         <Reveal>
           <SectionHeading

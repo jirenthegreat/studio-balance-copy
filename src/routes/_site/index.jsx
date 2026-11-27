@@ -2,22 +2,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import Hero from "@/components/site/Hero";
 import TrustBar from "@/components/site/TrustBar";
 import QuoteBand from "@/components/site/QuoteBand";
-import Concerns from "@/components/site/Concerns";
-import StudioCarousel from "@/components/site/StudioCarousel";
 import About from "@/components/site/About";
-import MeetPaula from "@/components/site/MeetPaula";
-import Team from "@/components/site/Team";
+import StudioCarousel from "@/components/site/StudioCarousel";
+import Concerns from "@/components/site/Concerns";
 import Offer from "@/components/site/Offer";
-import Marquee from "@/components/site/Marquee";
-import HowItWorks from "@/components/site/HowItWorks";
-import Stats from "@/components/site/Stats";
-import MobileCta from "@/components/site/MobileCta";
+import Statement from "@/components/site/Statement";
 import Schedule from "@/components/site/Schedule";
-import Pricing from "@/components/site/Pricing";
+import MeetPaula from "@/components/site/MeetPaula";
 import Reviews from "@/components/site/Reviews";
-import CtaBand from "@/components/site/CtaBand";
+import Pricing from "@/components/site/Pricing";
 import Faq from "@/components/site/Faq";
 import Contact from "@/components/site/Contact";
+import CtaBand from "@/components/site/CtaBand";
+import MobileCta from "@/components/site/MobileCta";
 import { getSiteContent, sendContactMessage } from "@/lib/server-fns";
 import { IMG, CONTACT } from "@/lib/images";
 
@@ -99,6 +96,11 @@ function HomePage() {
       <TrustBar />
       <QuoteBand />
       <About />
+      <StudioCarousel />
+      <Concerns />
+      <Offer offers={types.length ? types : undefined} />
+      <Statement />
+      <Schedule sessions={sessions} />
       <MeetPaula
         instructor={
           lead
@@ -113,12 +115,7 @@ function HomePage() {
             : undefined
         }
       />
-      <Offer offers={types.length ? types : undefined} />
-      <Concerns />
-      <Marquee />
-      <HowItWorks />
-      <Stats />
-      <Schedule sessions={sessions} />
+      <Reviews reviews={reviews} />
       <Pricing
         plans={plans.length ? plans : undefined}
         promo={
@@ -127,15 +124,12 @@ function HomePage() {
             : undefined
         }
       />
-      <StudioCarousel />
-      <Reviews reviews={reviews} />
-      <CtaBand />
-      <Team instructors={instructors} />
       <Faq />
       <Contact
         onSubmit={(form) => sendContactMessage({ data: { ...form } })}
       />
       <div className="h-16 md:hidden" aria-hidden="true" />
+      <CtaBand />
       <MobileCta />
     </>
   );

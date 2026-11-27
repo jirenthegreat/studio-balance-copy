@@ -1,11 +1,9 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarDays } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import { cn } from "@/lib/utils";
 
-const WEEKDAY_SHORT = ["Nd", "Pn", "Wt", "Śr", "Czw", "Pt", "Sob"];
 const WEEKDAY_LONG = [
   "Niedziela",
   "Poniedziałek",
@@ -53,61 +51,82 @@ export function weekDatesFor() {
   return out;
 }
 
-function weekdayShort(date) {
-  return WEEKDAY_SHORT[new Date(`${date}T12:00:00`).getDay()];
-}
-
 function weekdayLong(date) {
   return WEEKDAY_LONG[new Date(`${date}T12:00:00`).getDay()];
 }
 
-/** Delikatne pastelowe tło dla typu zajęć. */
-function tint(color, alpha) {
-  const hex = /^#[0-9a-f]{6}$/i.test(color || "") ? color : "#B9788F";
-  return `${hex}${alpha}`;
+function shortDate(date) {
+  return `${date.slice(8, 10)}.${date.slice(5, 7)}`;
 }
 
-function SlotCard({ session }) {
-  const free = Math.max(0, (session.capacity ?? 4) - (session.booked ?? 0));
+/** „Paula” → „Paulą”, inne imiona zostawiamy bez odmiany. */
+function withInstructor(name) {
+  const first = String(name || "Paula").trim().split(" ")[0];
+  return /a$/i.test(first) ? `${first.slice(0, -1)}ą` : first;
+}
+
+function SlotRow({ session }) {
+  const capacity = session.capacity ?? 4;
+  const free = Math.max(0, capacity - (session.booked ?? 0));
+
   return (
-    <article
-      className="rounded-[18px] border p-4"
-      style={{
-        backgroundColor: tint(session.color, "1F"),
-        borderColor: tint(session.color, "3D"),
-      }}
-    >
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <span className="text-[1.1rem] font-medium leading-none tracking-[-0.02em]">
+    <div className="flex flex-col gap-3 border-t border-ink/[0.07] px-5 py-4 transition-colors hover:bg-surface/70 sm:flex-row sm:items-center sm:gap-5 sm:px-6">
+      <div className="flex shrink-0 items-baseline gap-2 sm:w-[8.5rem]">
+        <span className="text-[1.05rem] font-medium tracking-[-0.02em] text-ink">
           {session.time}
         </span>
-        <span
-          className={cn(
-            "site-pill !px-2.5 !py-1 !text-[0.68rem]",
-            free === 0
-              ? "bg-surface/80 text-ink/70"
-              : "bg-surface/60 text-ink/45"
-          )}
-        >
-          {free === 0 ? "Lista rezerwowa" : `${free}/${session.capacity ?? 4} wolne`}
+        <span className="text-[0.78rem] text-ink/40">
+          · {session.duration} min
         </span>
       </div>
-      <h4 className="mt-2.5 text-[0.98rem] font-medium leading-snug tracking-[-0.01em]">
+
+      <p className="flex-1 text-[0.95rem] leading-snug text-ink/75">
+        <span className="text-ink/30">– </span>
         {session.name}
-      </h4>
-      <p className="mt-1.5 text-[0.8rem] text-ink/45">
-        {session.instructor || "Paula"}
+        <span className="text-ink/45">
+          {" "}
+          z {withInstructor(session.instructor)}
+        </span>
       </p>
-      <Link
-        to="/rezerwacja/$sessionId"
-        params={{ sessionId: session.id }}
-        className="btn btn-outline mt-3.5 w-full !min-h-[38px] !px-3 !text-[0.78rem]"
-      >
-        {free === 0 ? "Zapisz na listę" : "Zapisz się"}
-      </Link>
-    </article>
+
+      <div className="flex items-center justify-between gap-4 sm:justify-end">
+        <span
+          className={cn(
+            "site-pill !px-2.5 !py-1 !text-[0.7rem]",
+            free === 0 ? "bg-blush/15 text-ink/60" : "bg-leaf/15 text-ink/55"
+          )}
+        >
+          {free === 0 ? "lista rezerwowa" : `${free} z ${capacity} miejsc`}
+        </span>
+
+        <Link
+          to="/rezerwacja/$sessionId"
+          params={{ sessionId: session.id }}
+          className="group/zapisz flex items-center gap-1.5 whitespace-nowrap text-[0.88rem] font-medium text-ink"
+        >
+          Zapisz
+          <span
+            aria-hidden="true"
+            className="transition-transform duration-300 group-hover/zapisz:translate-x-1"
+          >
+            →
+          </span>
+        </Link>
+      </div>
+    </div>
   );
 }
+
+const NOTES = [
+  {
+    text: "zabierz koleżankę!",
+    className: "right-0 top-[4.5rem] -rotate-6 lg:right-[-1.5rem]",
+  },
+  {
+    text: "pierwszy raz? spokojnie ✦",
+    className: "bottom-[5.5rem] left-0 rotate-3 lg:left-[-2rem]",
+  },
+];
 
 export default function Schedule({
   sessions = [],
@@ -118,7 +137,6 @@ export default function Schedule({
   intro = "Małe grupy, więc miejsca szybko znikają. Zapis trwa chwilę i nie wymaga zakładania konta.",
 }) {
   const [filter, setFilter] = useState("all");
-  const [openDay, setOpenDay] = useState(0);
 
   const week = useMemo(() => weekDatesFor(), []);
 
@@ -141,7 +159,7 @@ export default function Schedule({
 
   return (
     <section id="grafik" className="py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-5 md:px-10">
+      <div className="mx-auto max-w-5xl px-5 md:px-10">
         <Reveal className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeading overline="Grafik" title={title} intro={intro} />
           {showAllLink && (
@@ -186,74 +204,67 @@ export default function Schedule({
           ))}
         </div>
 
-        {/* Desktop */}
-        <div className="mt-8 hidden gap-4 md:grid md:grid-cols-4 lg:grid-cols-7">
-          {week.map((date) => {
-            const daySessions = visible.filter((s) => s.date === date);
-            return (
-              <div key={date}>
-                <div className="mb-4 border-b border-ink/10 pb-3">
-                  <p className="text-[0.8rem] text-ink/45">{weekdayShort(date)}</p>
-                  <p className="mt-1 text-[1.05rem] font-medium tracking-[-0.02em]">
-                    {date.slice(8, 10)}.{date.slice(5, 7)}
-                  </p>
-                </div>
-                <div className="space-y-3">
-                  {daySessions.length === 0 && (
-                    <p className="py-6 text-center text-[0.78rem] text-ink/30">
-                      brak zajęć
-                    </p>
-                  )}
-                  {daySessions.map((s) => (
-                    <SlotCard key={s.id} session={s} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <div className="relative mt-8">
+          {NOTES.map((note) => (
+            <span
+              key={note.text}
+              aria-hidden="true"
+              className={cn(
+                "pointer-events-none absolute z-10 hidden font-hand text-[1.5rem] leading-none text-blush/85 xl:block",
+                note.className
+              )}
+            >
+              {note.text}
+            </span>
+          ))}
 
-        {/* Mobile */}
-        <div className="mt-8 md:hidden">
-          {week.map((date, i) => {
-            const daySessions = visible.filter((s) => s.date === date);
-            const isOpen = openDay === i;
-            return (
-              <div key={date} className="border-b border-ink/10">
-                <button
-                  type="button"
-                  onClick={() => setOpenDay(isOpen ? -1 : i)}
-                  aria-expanded={isOpen}
-                  className="flex w-full items-center justify-between py-4 text-left"
-                >
-                  <span className="flex items-baseline gap-3">
-                    <span className="text-[1.1rem] font-medium tracking-[-0.02em]">
-                      {weekdayLong(date)}
-                    </span>
-                    <span className="text-[0.78rem] text-ink/40">
-                      {date.slice(8, 10)}.{date.slice(5, 7)}
-                    </span>
-                  </span>
-                  <span className="flex items-center gap-2 text-[0.76rem] text-ink/45">
-                    {daySessions.length} {daySessions.length === 1 ? "zajęcia" : "zajęć"}
-                    <CalendarDays className="h-4 w-4" aria-hidden="true" />
-                  </span>
-                </button>
-                {isOpen && (
-                  <div className="space-y-3 pb-5">
-                    {daySessions.length === 0 && (
-                      <p className="py-2 text-[0.84rem] text-ink/45">
-                        W tym dniu nie ma zaplanowanych zajęć.
+          <Reveal>
+            <div className="site-card overflow-hidden">
+              {week.map((date) => {
+                const daySessions = visible.filter((s) => s.date === date);
+                return (
+                  <div key={date}>
+                    <div className="flex items-baseline justify-between gap-4 bg-canvas/60 px-5 py-3 sm:px-6">
+                      <p className="text-[0.86rem] font-medium tracking-[-0.01em] text-ink">
+                        {weekdayLong(date)}
+                        <span className="ml-2 font-normal text-ink/40">
+                          {shortDate(date)}
+                        </span>
                       </p>
+                      <p className="text-[0.76rem] text-ink/40">
+                        {daySessions.length === 0
+                          ? "brak zajęć"
+                          : `${daySessions.length} ${
+                              daySessions.length === 1 ? "zajęcia" : "zajęć"
+                            }`}
+                      </p>
+                    </div>
+                    {daySessions.length === 0 ? (
+                      <p className="border-t border-ink/[0.07] px-5 py-4 text-[0.85rem] text-ink/35 sm:px-6">
+                        Tego dnia odpoczywamy.
+                      </p>
+                    ) : (
+                      daySessions.map((s) => (
+                        <SlotRow key={s.id} session={s} />
+                      ))
                     )}
-                    {daySessions.map((s) => (
-                      <SlotCard key={s.id} session={s} />
-                    ))}
                   </div>
-                )}
-              </div>
-            );
-          })}
+                );
+              })}
+            </div>
+          </Reveal>
+
+          <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 xl:hidden">
+            {NOTES.map((note) => (
+              <span
+                key={note.text}
+                aria-hidden="true"
+                className="font-hand text-[1.35rem] leading-none text-blush/85 first:-rotate-3 last:rotate-2"
+              >
+                {note.text}
+              </span>
+            ))}
+          </div>
         </div>
 
         {visible.length === 0 && (

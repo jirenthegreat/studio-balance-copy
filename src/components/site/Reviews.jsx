@@ -1,52 +1,51 @@
-import { Quote } from "lucide-react";
+import { Star } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
-import ReviewCarousel from "./ReviewCarousel";
+import ReviewStack from "./ReviewStack";
+import { SAMPLE_REVIEWS } from "./reviewSamples";
 import { CONTACT } from "@/lib/images";
 
 export default function Reviews({ reviews = [] }) {
+  const items = reviews.length ? reviews : SAMPLE_REVIEWS;
   const link = CONTACT.googleReviews;
 
   return (
-    <section id="opinie" className="bg-clay py-24 md:py-32">
-      <div className="mx-auto max-w-6xl px-5 md:px-10">
-        <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-          <Reveal>
-            <SectionHeading
-              overline="Opinie"
-              title="Słowa osób,|które u nas *trenują*."
-            />
-          </Reveal>
-          <Reveal delay={100}>
+    <section id="opinie" className="py-24 md:py-32">
+      <div className="mx-auto max-w-5xl px-5 md:px-10">
+        <Reveal>
+          <SectionHeading
+            overline="Opinie"
+            title="Słowa osób,|które u nas *trenują*."
+          />
+        </Reveal>
+
+        <Reveal delay={80}>
+          <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2">
+            <span className="flex gap-0.5" aria-hidden="true">
+              {[0, 1, 2, 3, 4].map((i) => (
+                <Star key={i} className="h-3.5 w-3.5 fill-blush text-blush" />
+              ))}
+            </span>
+            <span className="text-[0.95rem] font-medium tracking-[-0.01em] text-ink">
+              5,0 w Google · 14 opinii
+            </span>
             <a
               href={link}
               target="_blank"
               rel="noreferrer"
-              className="site-pill bg-surface px-4 py-3 text-ink/70 shadow-[0_12px_30px_-24px_rgba(43,29,26,0.7)] transition-colors hover:text-ink"
+              className="text-[0.82rem] text-ink/45 underline decoration-ink/20 underline-offset-4 transition-colors hover:text-ink"
             >
-              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[0.62rem] font-semibold text-surface">
-                G
-              </span>
-              5,0 ★ w Google · 14 opinii
+              Zobacz w Google
             </a>
-          </Reveal>
-        </div>
+          </div>
+        </Reveal>
 
-        {reviews.length ? (
-          <ReviewCarousel reviews={reviews} />
-        ) : (
-          <Reveal delay={120}>
-            <div className="mt-12 rounded-[24px] border border-dashed border-ink/15 px-6 py-16 text-center">
-              <Quote className="mx-auto h-7 w-7 text-ink/20" aria-hidden="true" />
-              <p className="mx-auto mt-5 max-w-md text-[1.35rem] font-medium leading-snug tracking-[-0.02em] text-ink/65">
-                Opinie z Google pojawią się tutaj.
-              </p>
-            </div>
-          </Reveal>
-        )}
+        <Reveal delay={120}>
+          <ReviewStack reviews={items} />
+        </Reveal>
 
         <Reveal delay={80}>
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
               href={link}
               target="_blank"

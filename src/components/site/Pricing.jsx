@@ -1,7 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Sparkles, IdCard } from "lucide-react";
+import { IdCard } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
+import WelcomeTicket from "./WelcomeTicket";
 import { cn } from "@/lib/utils";
 
 // Dane przykładowe — cennik edytowalny z panelu.
@@ -32,12 +33,7 @@ export default function Pricing({ plans = SAMPLE_PLANS, promo = SAMPLE_PROMO }) 
 
         {promo?.enabled && promo?.text && (
           <Reveal delay={80}>
-            <div className="mt-10 flex items-start gap-4 rounded-[20px] border border-blush/25 bg-surface px-6 py-5">
-              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-blush" aria-hidden="true" />
-              <p className="text-[0.92rem] leading-relaxed text-ink/70">
-                {promo.text}
-              </p>
-            </div>
+            <WelcomeTicket text={promo.text} />
           </Reveal>
         )}
 
