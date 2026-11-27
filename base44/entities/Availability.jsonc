@@ -1,0 +1,48 @@
+{
+  "name": "Availability",
+  "type": "object",
+  "properties": {
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "weekday": {
+      "type": "number",
+      "description": "1 = poniedzia\u0142ek, 5 = pi\u0105tek"
+    },
+    "start_time": {
+      "type": "string"
+    },
+    "end_time": {
+      "type": "string"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "instructor_id",
+    "weekday"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

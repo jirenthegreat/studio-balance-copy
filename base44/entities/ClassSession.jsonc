@@ -1,0 +1,79 @@
+{
+  "name": "ClassSession",
+  "type": "object",
+  "properties": {
+    "class_type_id": {
+      "type": "string"
+    },
+    "class_name": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "instructor_photo": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number"
+    },
+    "capacity": {
+      "type": "number",
+      "default": 4
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "zaplanowane",
+        "odwolane"
+      ],
+      "enumColors": [
+        "green",
+        "red"
+      ],
+      "default": "zaplanowane"
+    },
+    "cancel_reason": {
+      "type": "string"
+    },
+    "is_demo": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "class_name",
+    "date",
+    "time"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

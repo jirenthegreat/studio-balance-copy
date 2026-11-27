@@ -1,0 +1,113 @@
+{
+  "name": "PersonalBooking",
+  "type": "object",
+  "properties": {
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string"
+    },
+    "time": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number",
+      "default": 60
+    },
+    "training_type": {
+      "type": "string",
+      "enum": [
+        "solo",
+        "para"
+      ],
+      "enumColors": [
+        "blue",
+        "purple"
+      ],
+      "default": "solo"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "oczekuje",
+        "potwierdzona",
+        "odwolana"
+      ],
+      "enumColors": [
+        "yellow",
+        "green",
+        "gray"
+      ],
+      "default": "oczekuje"
+    },
+    "cancel_token": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "instructor_id",
+    "date",
+    "time",
+    "first_name",
+    "email"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "user"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "user"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

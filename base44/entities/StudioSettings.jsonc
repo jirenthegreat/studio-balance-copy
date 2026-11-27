@@ -1,0 +1,78 @@
+{
+  "name": "StudioSettings",
+  "type": "object",
+  "properties": {
+    "cancellation_hours": {
+      "type": "number",
+      "default": 12
+    },
+    "default_capacity": {
+      "type": "number",
+      "default": 4
+    },
+    "promo_enabled": {
+      "type": "boolean",
+      "default": true
+    },
+    "promo_text": {
+      "type": "string"
+    },
+    "senior_note": {
+      "type": "string"
+    },
+    "email_confirmation_subject": {
+      "type": "string"
+    },
+    "email_confirmation_body": {
+      "type": "string"
+    },
+    "email_waitlist_subject": {
+      "type": "string"
+    },
+    "email_waitlist_body": {
+      "type": "string"
+    },
+    "email_cancel_subject": {
+      "type": "string"
+    },
+    "email_cancel_body": {
+      "type": "string"
+    },
+    "email_reminder_subject": {
+      "type": "string"
+    },
+    "email_reminder_body": {
+      "type": "string"
+    },
+    "email_personal_subject": {
+      "type": "string"
+    },
+    "email_personal_body": {
+      "type": "string"
+    },
+    "email_personal_confirmed_subject": {
+      "type": "string"
+    },
+    "email_personal_confirmed_body": {
+      "type": "string"
+    }
+  },
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "name": "ClassType",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "slug": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number"
+    },
+    "level": {
+      "type": "string"
+    },
+    "for_whom": {
+      "type": "string"
+    },
+    "quote": {
+      "type": "string",
+      "description": "Opcjonalny wyr\u00f3\u017cniony cytat wy\u015bwietlany na kafelku oferty"
+    },
+    "color": {
+      "type": "string"
+    },
+    "price": {
+      "type": "number"
+    },
+    "image": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "is_group": {
+      "type": "boolean",
+      "default": true
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "name"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

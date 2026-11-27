@@ -1,0 +1,65 @@
+{
+  "name": "RecurringSlot",
+  "type": "object",
+  "properties": {
+    "class_type_id": {
+      "type": "string"
+    },
+    "class_name": {
+      "type": "string"
+    },
+    "color": {
+      "type": "string"
+    },
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "instructor_photo": {
+      "type": "string"
+    },
+    "weekday": {
+      "type": "number",
+      "description": "1 = poniedzia\u0142ek, 5 = pi\u0105tek"
+    },
+    "time": {
+      "type": "string"
+    },
+    "duration": {
+      "type": "number"
+    },
+    "capacity": {
+      "type": "number",
+      "default": 4
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "class_name",
+    "weekday",
+    "time"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

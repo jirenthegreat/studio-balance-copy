@@ -1,0 +1,110 @@
+{
+  "name": "Booking",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string"
+    },
+    "session_date": {
+      "type": "string"
+    },
+    "session_time": {
+      "type": "string"
+    },
+    "class_name": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "potwierdzona",
+        "lista_rezerwowa",
+        "odwolana",
+        "obecna",
+        "nieobecna"
+      ],
+      "enumColors": [
+        "green",
+        "yellow",
+        "gray",
+        "blue",
+        "red"
+      ],
+      "default": "potwierdzona"
+    },
+    "cancel_token": {
+      "type": "string"
+    },
+    "reminder_sent": {
+      "type": "boolean",
+      "default": false
+    },
+    "is_demo": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "required": [
+    "session_id",
+    "first_name",
+    "email"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "user"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "$or": [
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        },
+        {
+          "user_condition": {
+            "role": "user"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
