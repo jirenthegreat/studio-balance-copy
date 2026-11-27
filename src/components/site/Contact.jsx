@@ -43,19 +43,19 @@ export default function Contact({ onSubmit }) {
   };
 
   return (
-    <section id="kontakt" className="bg-sand/40 py-24 md:py-32">
+    <section id="kontakt" className="py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <div className="grid gap-12 md:grid-cols-2 md:gap-16">
           <Reveal>
             <SectionHeading
               overline="Kontakt"
-              title="Przyjdź, zobacz, zostań."
+              title="Przyjdź, zobacz, *zostań*."
               intro="Studio jest w Unia Art Residence — w centrum Lublina, z widokiem na zieleń."
             />
 
-            <ul className="mt-9 space-y-6 text-[0.95rem] text-graphite/75">
+            <ul className="mt-9 space-y-6 text-[0.95rem] text-ink/65">
               <li className="flex gap-4">
-                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-rose" aria-hidden="true" />
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-leaf" aria-hidden="true" />
                 <span>
                   {CONTACT.place}
                   <br />
@@ -65,8 +65,8 @@ export default function Contact({ onSubmit }) {
                 </span>
               </li>
               <li>
-                <a href={CONTACT.phoneHref} className="flex gap-4 hover:text-graphite">
-                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-rose" aria-hidden="true" />
+                <a href={CONTACT.phoneHref} className="flex gap-4 hover:text-ink">
+                  <Phone className="mt-0.5 h-4 w-4 shrink-0 text-leaf" aria-hidden="true" />
                   {CONTACT.phone}
                 </a>
               </li>
@@ -77,7 +77,7 @@ export default function Contact({ onSubmit }) {
                 href={CONTACT.messenger}
                 target="_blank"
                 rel="noreferrer"
-                className="btn btn-primary"
+                className="btn btn-primary btn-no-arrow"
               >
                 <MessageCircle className="h-4 w-4" aria-hidden="true" />
                 Messenger
@@ -102,7 +102,7 @@ export default function Contact({ onSubmit }) {
               </a>
             </div>
 
-            <div className="mt-9 overflow-hidden rounded-[1.25rem] border border-graphite/15">
+            <div className="mt-9 overflow-hidden rounded-[24px] border border-ink/10">
               <iframe
                 title="Mapa dojazdu do Studio Balance, Aleje Racławickie 10/14, Lublin"
                 src={CONTACT.mapEmbed}
@@ -114,15 +114,17 @@ export default function Contact({ onSubmit }) {
           </Reveal>
 
           <Reveal delay={120}>
-            <div className="border border-graphite/15 bg-bone p-6 md:p-8">
-              <h3 className="text-[1.6rem] leading-tight">Napisz do nas</h3>
-              <p className="mt-2 text-[0.85rem] leading-relaxed text-graphite/55">
+            <div className="site-card p-6 md:p-8">
+              <h3 className="text-[1.5rem] font-medium leading-tight tracking-[-0.02em]">
+                Napisz do nas
+              </h3>
+              <p className="mt-2 text-[0.88rem] leading-relaxed text-ink/50">
                 Napisz, jeśli masz pytanie o zajęcia, termin lub trening
                 personalny.
               </p>
 
               {sent ? (
-                <div className="mt-8 border border-sage/40 bg-sage/10 p-6 text-[0.9rem] leading-relaxed text-graphite/75">
+                <div className="mt-8 rounded-[16px] border border-leaf/30 bg-leaf/10 p-6 text-[0.9rem] leading-relaxed text-ink/70">
                   Dziękujemy za wiadomość. Odpowiemy na podany adres e-mail.
                 </div>
               ) : (
@@ -169,13 +171,13 @@ export default function Contact({ onSubmit }) {
                     />
                   </Field>
 
-                  <label className="flex items-start gap-3 pt-1 text-[0.78rem] leading-relaxed text-graphite/60">
+                  <label className="flex items-start gap-3 pt-1 text-[0.8rem] leading-relaxed text-ink/55">
                     <Checkbox
                       checked={form.consent}
                       onCheckedChange={(v) =>
                         setForm((f) => ({ ...f, consent: v === true }))
                       }
-                      className="mt-0.5 border-graphite/40"
+                      className="mt-0.5 border-ink/30"
                       aria-label="Zgoda na przetwarzanie danych"
                     />
                     <span>
@@ -185,7 +187,7 @@ export default function Contact({ onSubmit }) {
                   </label>
 
                   {error && (
-                    <p role="alert" className="text-[0.8rem] text-destructive">
+                    <p role="alert" className="text-[0.82rem] text-destructive">
                       {error}
                     </p>
                   )}
@@ -213,7 +215,7 @@ function Field({ label, id, children }) {
     <div>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-graphite/50"
+        className="mb-1.5 block text-[0.78rem] text-ink/50"
       >
         {label}
       </label>

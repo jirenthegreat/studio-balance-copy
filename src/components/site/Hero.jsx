@@ -37,7 +37,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-graphite">
+    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-canvas">
       <div ref={photoRef} className="absolute inset-0 will-change-transform">
         <Image
           src={IMG.hero}
@@ -45,55 +45,50 @@ export default function Hero() {
           className="photo-warm kenburns h-full w-full"
         />
       </div>
+
       <div
-        className="absolute inset-0 bg-gradient-to-b from-graphite/80 via-graphite/25 to-graphite/90"
+        className="absolute inset-0 bg-[linear-gradient(to_top,#F4EEE8_6%,rgba(244,238,232,0.88)_46%,rgba(244,238,232,0.22)_100%)] md:hidden"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-0 hidden bg-[linear-gradient(to_right,#F4EEE8_0%,#F4EEE8_34%,rgba(244,238,232,0.86)_55%,rgba(244,238,232,0)_100%)] md:block"
+        aria-hidden="true"
+      />
+      <div
+        className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-canvas to-transparent"
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto w-full max-w-6xl px-5 pb-12 pt-36 md:px-10 md:pb-16">
-        <p className="overline flex items-center gap-3 whitespace-nowrap text-bone/70">
-          <span
-            className="block h-px w-7 shrink-0 bg-bone/40"
-            aria-hidden="true"
-          />
-          {CONTACT.place} · Lublin
-        </p>
-        <h1 className="mt-6 max-w-[15ch] text-[clamp(2.9rem,8.6vw,7.6rem)] leading-[0.9] tracking-[-0.03em] text-bone">
-          Znajdź swoją{" "}
-          <span className="font-light italic text-sand">równowagę</span>.
+      <div className="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-36 md:px-10 md:pb-20">
+        <p className="overline">{CONTACT.place} · Lublin</p>
+        <h1 className="mt-7 max-w-[15ch] text-[clamp(2.7rem,7vw,6rem)] font-medium leading-[0.95] tracking-[-0.035em] text-ink">
+          Znajdź swoją <em className="site-accent">równowagę</em>.
         </h1>
-        <p className="mt-7 max-w-lg text-[1rem] leading-[1.7] text-bone/80 md:text-[1.1rem]">
+        <p className="mt-7 max-w-md text-[1rem] leading-[1.75] text-ink/60 md:text-[1.05rem]">
           Treningi personalne i zajęcia w kameralnych grupach do 4 osób,
           w Unia Art Residence w Lublinie.
         </p>
         <div className="mt-9 flex flex-col gap-3 sm:flex-row">
           <Magnetic>
-            <Link
-              to="/grafik"
-              className="btn btn-primary w-full bg-bone text-graphite hover:bg-sand sm:w-auto"
-            >
+            <Link to="/grafik" className="btn btn-primary w-full sm:w-auto">
               Zarezerwuj zajęcia
             </Link>
           </Magnetic>
           <Magnetic>
-            <Link to="/trening-personalny" className="btn btn-light w-full sm:w-auto">
+            <Link to="/trening-personalny" className="btn btn-outline w-full sm:w-auto">
               Trening personalny
             </Link>
           </Magnetic>
         </div>
-      </div>
 
-      <div className="relative border-t border-bone/15 bg-graphite/35 backdrop-blur-sm">
-        <ul className="mx-auto grid max-w-6xl gap-px px-5 sm:grid-cols-3 md:px-10">
+        <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
           {FEATURES.map(({ icon: Icon, label }) => (
             <li
               key={label}
-              className="flex items-center gap-3 border-b border-bone/10 py-5 text-bone/85 last:border-b-0 sm:border-b-0 sm:border-r sm:px-6 sm:first:pl-0 sm:last:border-r-0"
+              className="flex items-center gap-2.5 text-[0.84rem] text-ink/55"
             >
-              <Icon className="h-4 w-4 shrink-0 text-sage" aria-hidden="true" />
-              <span className="text-[0.72rem] uppercase tracking-[0.16em]">
-                {label}
-              </span>
+              <Icon className="h-4 w-4 shrink-0 text-leaf" aria-hidden="true" />
+              {label}
             </li>
           ))}
         </ul>

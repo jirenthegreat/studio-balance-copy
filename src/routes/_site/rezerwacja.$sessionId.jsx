@@ -30,17 +30,17 @@ function RezerwacjaPage() {
       <div className="mx-auto max-w-5xl px-5 md:px-10">
         <Link
           to="/grafik"
-          className="text-[0.7rem] uppercase tracking-[0.18em] text-graphite/50 hover:text-graphite"
+          className="text-[0.85rem] text-ink/50 transition-colors hover:text-ink"
         >
           ← Wróć do grafiku
         </Link>
 
         {session ? (
           <div className="mt-8">
-            <h1 className="max-w-xl text-[2.1rem] leading-[1.08] md:text-[2.8rem]">
-              Zapis na zajęcia
+            <h1 className="max-w-xl text-[clamp(2rem,4.4vw,2.9rem)] font-medium leading-[1.03] tracking-[-0.03em]">
+              Zapis na <em className="site-accent">zajęcia</em>
             </h1>
-            <p className="mt-3 max-w-lg text-[0.92rem] leading-relaxed text-graphite/60">
+            <p className="mt-3 max-w-lg text-[0.92rem] leading-relaxed text-ink/55">
               Wypełnij dane — potwierdzenie i link do odwołania przyjdą na
               podany adres e-mail.
             </p>
@@ -49,9 +49,11 @@ function RezerwacjaPage() {
             </div>
           </div>
         ) : (
-          <div className="mt-10 border border-graphite/15 bg-bone p-10 text-center">
-            <h1 className="text-[1.8rem] leading-tight">Nie znaleźliśmy tych zajęć</h1>
-            <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-graphite/60">
+          <div className="site-card mt-10 p-10 text-center">
+            <h1 className="text-[1.7rem] font-medium leading-tight tracking-[-0.02em]">
+              Nie znaleźliśmy tych zajęć
+            </h1>
+            <p className="mx-auto mt-3 max-w-sm text-[0.9rem] leading-relaxed text-ink/55">
               Termin mógł zostać odwołany lub już się odbył. Zajrzyj do
               aktualnego grafiku.
             </p>

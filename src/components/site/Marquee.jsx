@@ -10,7 +10,7 @@ const WORDS = [
 export default function Marquee() {
   return (
     <div
-      className="relative overflow-hidden border-y border-graphite/12 bg-sand/25 py-5"
+      className="relative overflow-hidden bg-clay py-6"
       aria-hidden="true"
     >
       <div className="marquee-track flex w-max items-center">
@@ -19,10 +19,10 @@ export default function Marquee() {
             {WORDS.map((word) => (
               <span
                 key={`${half}-${word}`}
-                className="flex items-center whitespace-nowrap text-[0.66rem] uppercase tracking-[0.36em] text-graphite/50"
+                className="flex items-center whitespace-nowrap text-[1.35rem] italic tracking-[-0.01em] text-ink/45"
               >
-                {word}
-                <span className="mx-6 text-rose/45">·</span>
+                <span className="site-accent">{word}</span>
+                <span className="mx-7 h-1.5 w-1.5 rounded-full bg-leaf/60" />
               </span>
             ))}
           </div>

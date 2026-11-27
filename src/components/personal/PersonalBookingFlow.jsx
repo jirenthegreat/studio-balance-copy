@@ -105,29 +105,29 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
 
   if (result) {
     return (
-      <div className="step-enter border border-graphite/15 bg-bone p-7 md:p-10">
+      <div className="step-enter site-card p-7 md:p-10">
         <BookingSuccess />
         <h2 className="mt-6 text-[1.8rem] leading-tight md:text-[2.1rem]">
           Zgłoszenie przyjęte
         </h2>
-        <p className="mt-3 max-w-md text-[0.92rem] leading-[1.8] text-graphite/65">
+        <p className="mt-3 max-w-md text-[0.92rem] leading-[1.8] text-ink/65">
           Termin jest wstępnie zarezerwowany. Paula potwierdzi go mailem.
         </p>
-        <dl className="mt-7 space-y-3 border-t border-graphite/10 pt-6 text-[0.9rem]">
+        <dl className="mt-7 space-y-3 border-t border-ink/10 pt-6 text-[0.9rem]">
           <div className="flex justify-between gap-6">
-            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Termin</dt>
+            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Termin</dt>
             <dd className="text-right">{formatDatePl(result.date)}, {result.time}</dd>
           </div>
           <div className="flex justify-between gap-6">
-            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Trenerka</dt>
+            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Trenerka</dt>
             <dd className="text-right">{result.instructor}</dd>
           </div>
           <div className="flex justify-between gap-6">
-            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">Forma</dt>
+            <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">Forma</dt>
             <dd className="text-right">{result.training_type === "para" ? "W parze" : "Indywidualnie"}</dd>
           </div>
         </dl>
-        <p className="mt-6 text-[0.8rem] leading-relaxed text-graphite/50">
+        <p className="mt-6 text-[0.8rem] leading-relaxed text-ink/50">
           Płatność na miejscu. Jeśli musisz zmienić termin, odpisz na maila
           potwierdzającego lub zadzwoń: 730 730 357.
         </p>
@@ -148,8 +148,8 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
                 className={cn(
                   "border px-5 py-3 text-[0.72rem] uppercase tracking-[0.14em] transition-colors",
                   instructorId === person.id
-                    ? "border-graphite bg-graphite text-bone"
-                    : "border-graphite/20 text-graphite/70 hover:border-graphite/50"
+                    ? "border-ink bg-graphite text-bone"
+                    : "border-ink/20 text-ink/70 hover:border-ink/50"
                 )}
               >
                 {person.name}
@@ -169,14 +169,14 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
               className={cn(
                 "flex w-[74px] shrink-0 flex-col items-center border px-2 py-3 transition-colors",
                 date === d
-                  ? "border-graphite bg-graphite text-bone"
-                  : "border-graphite/20 text-graphite/70 hover:border-graphite/50"
+                  ? "border-ink bg-graphite text-bone"
+                  : "border-ink/20 text-ink/70 hover:border-ink/50"
               )}
             >
               <span className="text-[0.6rem] uppercase tracking-[0.12em] opacity-70">
                 {weekdayShort(d)}
               </span>
-              <span className="mt-1 font-heading text-xl leading-none">
+              <span className="mt-1 text-xl font-medium leading-none">
                 {d.slice(8, 10)}
               </span>
               <span className="mt-1 text-[0.6rem] opacity-60">
@@ -189,7 +189,7 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
 
       <Step number={instructors.length > 1 ? "03" : "02"} title="Wybierz godzinę">
         {loading ? (
-          <p className="flex items-center gap-2 text-[0.85rem] text-graphite/50">
+          <p className="flex items-center gap-2 text-[0.85rem] text-ink/50">
             <Loader2 className="h-4 w-4 animate-spin" /> Sprawdzamy wolne terminy…
           </p>
         ) : slots.length ? (
@@ -202,8 +202,8 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
                 className={cn(
                   "min-h-[46px] border px-5 text-[0.85rem] transition-colors",
                   time === slot
-                    ? "border-sage bg-sage/20 text-graphite"
-                    : "border-graphite/20 text-graphite/70 hover:border-sage"
+                    ? "border-leaf bg-leaf/20 text-ink"
+                    : "border-ink/20 text-ink/70 hover:border-leaf"
                 )}
               >
                 {slot}
@@ -211,12 +211,12 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
             ))}
           </div>
         ) : (
-          <p className="flex items-center gap-2 border border-graphite/15 bg-sand/30 px-5 py-4 text-[0.85rem] text-graphite/60">
+          <p className="flex items-center gap-2 rounded-[16px] bg-clay px-5 py-4 text-[0.85rem] text-ink/60">
             <CalendarDays className="h-4 w-4" aria-hidden="true" />
             Brak wolnych terminów tego dnia. Wybierz inny dzień.
           </p>
         )}
-        <p className="mt-3 flex items-center gap-2 text-[0.72rem] text-graphite/40">
+        <p className="mt-3 flex items-center gap-2 text-[0.72rem] text-ink/40">
           <Clock className="h-3.5 w-3.5" aria-hidden="true" />
           Trening trwa 60 minut.
         </p>
@@ -250,8 +250,8 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
               className={cn(
                 "min-h-[46px] border px-5 text-[0.72rem] uppercase tracking-[0.14em] transition-colors",
                 type === option.value
-                  ? "border-graphite bg-graphite text-bone"
-                  : "border-graphite/20 text-graphite/70 hover:border-graphite/50"
+                  ? "border-ink bg-graphite text-bone"
+                  : "border-ink/20 text-ink/70 hover:border-ink/50"
               )}
             >
               {option.label}
@@ -272,21 +272,21 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
           </Field>
         </div>
 
-        <label className="mt-4 flex items-start gap-3 text-[0.78rem] leading-relaxed text-graphite/65">
+        <label className="mt-4 flex items-start gap-3 text-[0.78rem] leading-relaxed text-ink/65">
           <Checkbox
             checked={form.terms}
             onCheckedChange={(v) => setForm((f) => ({ ...f, terms: v === true }))}
-            className="mt-0.5 border-graphite/40"
+            className="mt-0.5 border-ink/40"
             aria-label="Akceptacja regulaminu"
           />
           <span>Akceptuję regulamin zajęć Studio Balance.</span>
         </label>
 
-        <label className="mt-3 flex items-start gap-3 text-[0.78rem] leading-relaxed text-graphite/65">
+        <label className="mt-3 flex items-start gap-3 text-[0.78rem] leading-relaxed text-ink/65">
           <Checkbox
             checked={form.consent}
             onCheckedChange={(v) => setForm((f) => ({ ...f, consent: v === true }))}
-            className="mt-0.5 border-graphite/40"
+            className="mt-0.5 border-ink/40"
             aria-label="Zgoda RODO"
           />
           <span>
@@ -305,7 +305,7 @@ export default function PersonalBookingFlow({ instructors = [], today }) {
           {sending && <Loader2 className="h-4 w-4 animate-spin" />}
           {sending ? "Wysyłanie…" : "Wyślij zgłoszenie"}
         </button>
-        <p className="mt-3 text-[0.75rem] text-graphite/45">
+        <p className="mt-3 text-[0.75rem] text-ink/45">
           Termin jest wstępny — potwierdzimy go mailem.
         </p>
       </Step>
@@ -317,7 +317,7 @@ function Step({ number, title, children }) {
   return (
     <section>
       <div className="mb-5 flex items-baseline gap-3">
-        <span className="text-[0.65rem] tracking-[0.2em] text-rose">{number}</span>
+        <span className="text-[0.65rem] tracking-[0.2em] text-leaf">{number}</span>
         <h2 className="text-[1.35rem] leading-tight">{title}</h2>
       </div>
       {children}
@@ -330,7 +330,7 @@ function Field({ label, id, children }) {
     <div>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-graphite/50"
+        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-ink/50"
       >
         {label}
       </label>

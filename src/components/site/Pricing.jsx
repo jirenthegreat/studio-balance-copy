@@ -20,21 +20,21 @@ const SAMPLE_PROMO = {
 
 export default function Pricing({ plans = SAMPLE_PLANS, promo = SAMPLE_PROMO }) {
   return (
-    <section id="cennik" className="py-24 md:py-32">
+    <section id="cennik" className="bg-clay py-24 md:py-32">
       <div className="mx-auto max-w-5xl px-5 md:px-10">
         <Reveal>
           <SectionHeading
             overline="Cennik"
-            title="Proste zasady, spokojna głowa."
+            title="Proste zasady,|*spokojna głowa*."
             intro="Płatność na miejscu. Karnety i pakiety rozliczamy w studiu, przy pierwszej wizycie."
           />
         </Reveal>
 
         {promo?.enabled && promo?.text && (
           <Reveal delay={80}>
-            <div className="mt-10 flex items-start gap-4 border border-rose/30 bg-rose/[0.07] px-6 py-5">
-              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-rose" aria-hidden="true" />
-              <p className="text-[0.92rem] leading-relaxed text-graphite/80">
+            <div className="mt-10 flex items-start gap-4 rounded-[20px] border border-blush/25 bg-surface px-6 py-5">
+              <Sparkles className="mt-0.5 h-5 w-5 shrink-0 text-blush" aria-hidden="true" />
+              <p className="text-[0.92rem] leading-relaxed text-ink/70">
                 {promo.text}
               </p>
             </div>
@@ -42,34 +42,34 @@ export default function Pricing({ plans = SAMPLE_PLANS, promo = SAMPLE_PROMO }) 
         )}
 
         <Reveal delay={120}>
-          <div className="mt-8 divide-y divide-graphite/12 border-y border-graphite/15">
+          <div className="site-card mt-8 divide-y divide-ink/[0.07] overflow-hidden px-5 sm:px-8">
             {plans.map((plan) => (
               <div
                 key={plan.id || plan.name}
                 className={cn(
                   "flex flex-col gap-3 py-6 sm:flex-row sm:items-center sm:justify-between sm:gap-8",
-                  plan.featured && "-mx-5 bg-sand/40 px-5 sm:-mx-8 sm:px-8"
+                  plan.featured && "-mx-5 bg-canvas/70 px-5 sm:-mx-8 sm:px-8"
                 )}
               >
                 <div>
-                  <h3 className="flex items-center gap-3 text-[1.35rem] leading-tight">
+                  <h3 className="flex flex-wrap items-center gap-3 text-[1.25rem] font-medium leading-tight tracking-[-0.02em]">
                     {plan.name}
                     {plan.featured && (
-                      <span className="border border-graphite/20 px-2 py-0.5 text-[0.55rem] uppercase tracking-[0.16em] text-graphite/60">
+                      <span className="site-pill bg-leaf/20 text-ink/70">
                         najczęściej wybierany
                       </span>
                     )}
                   </h3>
-                  <p className="mt-1 text-[0.85rem] text-graphite/55">
+                  <p className="mt-1 text-[0.88rem] text-ink/50">
                     {plan.description}
                   </p>
                 </div>
                 <div className="flex items-center justify-between gap-6 sm:justify-end">
                   <div className="text-right">
-                    <p className="font-heading text-[1.6rem] leading-none">
+                    <p className="text-[1.35rem] font-medium leading-none tracking-[-0.02em]">
                       {plan.price ? `${plan.price} zł` : "Zapytaj o cenę"}
                     </p>
-                    <p className="mt-1 text-[0.6rem] uppercase tracking-[0.14em] text-graphite/40">
+                    <p className="mt-1 text-[0.78rem] text-ink/40">
                       {plan.unit}
                     </p>
                   </div>
@@ -81,7 +81,7 @@ export default function Pricing({ plans = SAMPLE_PLANS, promo = SAMPLE_PROMO }) 
                         ? "/trening-personalny"
                         : "/grafik")
                     }
-                    className="btn btn-outline !min-h-[40px] shrink-0 !px-4 !text-[0.6rem]"
+                    className="btn btn-outline shrink-0 !min-h-[40px] !px-4 !text-[0.8rem]"
                   >
                     Wybierz
                   </Link>
@@ -92,10 +92,10 @@ export default function Pricing({ plans = SAMPLE_PLANS, promo = SAMPLE_PROMO }) 
         </Reveal>
 
         <Reveal delay={160}>
-          <div className="mt-8 flex items-start gap-4 bg-sand/50 px-6 py-5">
-            <IdCard className="mt-0.5 h-5 w-5 shrink-0 text-sage" aria-hidden="true" />
-            <p className="text-[0.88rem] leading-relaxed text-graphite/70">
-              Honorujemy <strong className="font-medium text-graphite">Lubelską Kartę Seniora</strong>.
+          <div className="mt-8 flex items-start gap-4 rounded-[20px] bg-surface/70 px-6 py-5">
+            <IdCard className="mt-0.5 h-5 w-5 shrink-0 text-leaf" aria-hidden="true" />
+            <p className="text-[0.88rem] leading-relaxed text-ink/60">
+              Honorujemy <strong className="font-medium text-ink">Lubelską Kartę Seniora</strong>.
               Zapytaj o zniżkę przy zapisie — chętnie ją zastosujemy.
             </p>
           </div>

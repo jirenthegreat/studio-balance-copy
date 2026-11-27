@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
+import Accent from "./Accent";
 
 /**
  * Nagłówek sekcji. Tytuł może zawierać „|” — każdy fragment to osobna linia,
- * odsłaniana maską (mask reveal) po wejściu w widok.
+ * odsłaniana maską po wejściu w widok. Fragmenty w *gwiazdkach* dostają
+ * szeryfową kursywę.
  */
 export default function SectionHeading({
   overline,
@@ -49,39 +51,31 @@ export default function SectionHeading({
       )}
     >
       {overline && (
-        <p
-          className={cn(
-            "overline mb-5 flex items-center gap-3",
-            centered && "justify-center",
-            light ? "text-sand/85" : "text-rose"
-          )}
-        >
-          <span
-            className={cn("h-px w-7", light ? "bg-sand/50" : "bg-rose/50")}
-            aria-hidden="true"
-          />
+        <p className={cn("overline mb-6", centered && "justify-center")}>
           {overline}
         </p>
       )}
       <h2
         ref={ref}
         className={cn(
-          "mask-lines text-[2.15rem] leading-[1.08] tracking-[-0.01em] sm:text-[2.6rem] md:text-[3.2rem]",
+          "mask-lines text-[clamp(2.05rem,4.4vw,3.4rem)] font-medium leading-[1.03] tracking-[-0.03em]",
           shown && "is-visible",
-          light ? "text-bone" : "text-graphite"
+          light ? "text-canvas" : "text-ink"
         )}
       >
         {lines.map((line, i) => (
           <span key={`${line}-${i}`} className="mask-line">
-            <span style={{ transitionDelay: `${i * 110}ms` }}>{line}</span>
+            <span style={{ transitionDelay: `${i * 110}ms` }}>
+              <Accent text={line} />
+            </span>
           </span>
         ))}
       </h2>
       {intro && (
         <p
           className={cn(
-            "mt-6 text-[1rem] leading-[1.75] md:text-[1.06rem]",
-            light ? "text-bone/75" : "text-graphite/65"
+            "mt-6 max-w-xl text-[1rem] leading-[1.75]",
+            light ? "text-canvas/70" : "text-ink/55"
           )}
         >
           {intro}

@@ -18,6 +18,12 @@ export default {
   			graphite: '#2B2B2B',
   			rose: '#B9788F',
   			sage: '#9DAA94',
+  			canvas: '#F4EEE8',
+  			surface: '#FAF7F3',
+  			clay: '#EFE6DC',
+  			ink: '#2B1D1A',
+  			leaf: '#8FA58A',
+  			blush: '#C9958F',
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {
@@ -70,6 +76,9 @@ export default {
   			}
   		},
   		fontFamily: {
+  			sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+  			accent: ['Instrument Serif', 'ui-serif', 'Georgia', 'serif'],
+  			hand: ['Caveat', 'ui-rounded', 'cursive'],
   			heading: ['var(--font-heading)'],
   			body: ['var(--font-body)'],
   			display: ['var(--font-display)'],

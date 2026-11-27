@@ -24,6 +24,16 @@ const ICONS = {
   baby: Baby,
 };
 
+const PASTEL = {
+  personalny: "#EFE3D9",
+  pilates: "#F0E2E7",
+  spinning: "#F1E4D8",
+  stretching: "#E3E9E0",
+  obwodowy: "#EAE5DC",
+  "fit-mama": "#E9E3EE",
+  "baby-gym": "#F2E8DA",
+};
+
 // Dane przykładowe — w wersji produkcyjnej pochodzą z panelu studia.
 export const SAMPLE_OFFERS = [
   {
@@ -115,7 +125,7 @@ function FeaturedTile({ offer }) {
   return (
     <Link
       to={offer.link || "/grafik"}
-      className="group relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden border border-graphite/12 bg-graphite p-7 md:p-9"
+      className="group relative flex h-full min-h-[420px] flex-col justify-end overflow-hidden rounded-[24px] bg-ink p-7 md:p-9"
     >
       <Image
         src={offer.image || IMG.paulaClass}
@@ -123,26 +133,26 @@ function FeaturedTile({ offer }) {
         className="photo-warm absolute inset-0 h-full w-full opacity-85 transition-transform duration-[1400ms] group-hover:scale-[1.05]"
       />
       <div
-        className="absolute inset-0 bg-gradient-to-t from-graphite/92 via-graphite/45 to-graphite/10"
+        className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/45 to-ink/10"
         aria-hidden="true"
       />
       <div className="relative">
-        <p className="overline text-sand/80">
+        <span className="site-pill bg-surface/15 text-canvas/85 backdrop-blur-sm">
           {offer.is_group === false ? "Indywidualnie" : "W grupie"}
-        </p>
-        <h3 className="mt-3 text-[2rem] leading-[1.05] text-bone md:text-[2.6rem]">
+        </span>
+        <h3 className="mt-3 text-[2rem] font-medium leading-[1.03] tracking-[-0.03em] text-canvas md:text-[2.6rem]">
           {offer.name}
         </h3>
-        <p className="mt-4 max-w-md text-[0.92rem] leading-[1.75] text-bone/75">
+        <p className="mt-4 max-w-md text-[0.92rem] leading-[1.75] text-canvas/70">
           {offer.description}
         </p>
-        <div className="mt-6 flex items-center justify-between gap-4 border-t border-bone/20 pt-4">
-          <span className="text-[0.62rem] uppercase tracking-[0.16em] text-bone/60">
+        <div className="mt-6 flex items-center justify-between gap-4 border-t border-canvas/20 pt-4">
+          <span className="text-[0.8rem] text-canvas/55">
             {[offer.duration, offer.level].filter(Boolean).join(" · ")}
           </span>
-          <span className="flex items-center gap-2 text-[0.6rem] uppercase tracking-[0.2em] text-bone">
+          <span className="flex items-center gap-2 text-[0.85rem] font-medium text-canvas">
             Zobacz
-            <ArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
           </span>
         </div>
       </div>
@@ -152,12 +162,13 @@ function FeaturedTile({ offer }) {
 
 function Tile({ offer }) {
   const Icon = ICONS[offer.icon] || Flower2;
+  const pastel = PASTEL[offer.id] || "#EDE3D9";
   return (
     <Link
       to={offer.link || "/grafik"}
-      className="group relative flex h-full flex-col overflow-hidden border border-graphite/12 bg-card transition-colors duration-500 hover:border-graphite/25"
+      className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-ink/[0.07] bg-surface transition-colors duration-500 hover:border-ink/20"
     >
-      <div className="relative h-36 overflow-hidden bg-sand/40">
+      <div className="relative h-36 overflow-hidden" style={{ background: pastel }}>
         {offer.image ? (
           <Image
             src={offer.image}
@@ -165,36 +176,32 @@ function Tile({ offer }) {
             className="photo-warm h-full w-full transition-transform duration-[1200ms] group-hover:scale-[1.06]"
           />
         ) : (
-          <div
-            className="flex h-full items-center justify-center"
-            style={{
-              background:
-                "radial-gradient(circle at 50% 20%, #EFE5D8 0%, #E8DCCB 70%)",
-            }}
-          >
+          <div className="flex h-full items-center justify-center">
             <Icon
-              className="h-10 w-10 text-graphite/35"
+              className="h-10 w-10 text-ink/30"
               strokeWidth={1}
               aria-hidden="true"
             />
           </div>
         )}
-        <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-bone/90 text-graphite opacity-0 transition-all duration-300 group-hover:opacity-100">
+        <span className="absolute right-3 top-3 flex h-8 w-8 items-center justify-center rounded-full bg-surface/90 text-ink opacity-0 transition-all duration-300 group-hover:opacity-100">
           <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </span>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
-        <h3 className="text-[1.25rem] leading-tight">{offer.name}</h3>
-        <p className="mt-2 text-[0.82rem] leading-[1.7] text-graphite/60">
+        <h3 className="text-[1.2rem] font-medium leading-tight tracking-[-0.02em]">
+          {offer.name}
+        </h3>
+        <p className="mt-2 text-[0.85rem] leading-[1.7] text-ink/55">
           {offer.description}
         </p>
         {offer.quote && (
-          <blockquote className="mt-4 border-l-2 border-rose/50 pl-3 font-heading text-[0.98rem] italic leading-snug text-graphite/75">
+          <blockquote className="mt-4 border-l-2 border-blush/60 pl-3 text-[0.95rem] leading-snug text-ink/70">
             „{offer.quote}”
           </blockquote>
         )}
-        <p className="mt-auto pt-5 text-[0.58rem] uppercase tracking-[0.16em] text-graphite/40">
+        <p className="mt-auto pt-5 text-[0.78rem] text-ink/40">
           {[offer.duration, offer.level].filter(Boolean).join(" · ")}
         </p>
       </div>
@@ -212,7 +219,7 @@ export default function Offer({ offers = SAMPLE_OFFERS }) {
         <Reveal>
           <SectionHeading
             overline="Oferta"
-            title="Siedem sposobów,|żeby zadbać o siebie."
+            title="Siedem sposobów,|żeby *zadbać o siebie*."
             intro="Zajęcia grupowe w małych grupach i treningi indywidualne. Każda forma ma swój rytm — wybierz tę, która pasuje do Twojego tygodnia."
           />
         </Reveal>

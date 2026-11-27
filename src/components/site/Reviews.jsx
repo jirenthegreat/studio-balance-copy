@@ -8,13 +8,13 @@ export default function Reviews({ reviews = [] }) {
   const link = CONTACT.googleReviews;
 
   return (
-    <section id="opinie" className="py-24 md:py-32">
+    <section id="opinie" className="bg-clay py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <div className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <Reveal>
             <SectionHeading
               overline="Opinie"
-              title="Słowa osób,|które u nas trenują."
+              title="Słowa osób,|które u nas *trenują*."
             />
           </Reveal>
           <Reveal delay={100}>
@@ -22,14 +22,12 @@ export default function Reviews({ reviews = [] }) {
               href={link}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-3 border border-graphite/15 bg-card px-5 py-4 transition-colors hover:border-graphite/45"
+              className="site-pill bg-surface px-4 py-3 text-ink/70 shadow-[0_12px_30px_-24px_rgba(43,29,26,0.7)] transition-colors hover:text-ink"
             >
-              <span className="flex h-7 w-7 items-center justify-center rounded-full border border-graphite/25 text-[0.62rem] font-semibold text-graphite/70">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full bg-ink text-[0.62rem] font-semibold text-surface">
                 G
               </span>
-              <span className="text-[0.74rem] tracking-[0.04em] text-graphite/75">
-                5,0 ★ w Google · 14 opinii
-              </span>
+              5,0 ★ w Google · 14 opinii
             </a>
           </Reveal>
         </div>
@@ -38,12 +36,9 @@ export default function Reviews({ reviews = [] }) {
           <ReviewCarousel reviews={reviews} />
         ) : (
           <Reveal delay={120}>
-            <div className="mt-12 border border-dashed border-graphite/25 px-6 py-16 text-center">
-              <Quote
-                className="mx-auto h-7 w-7 text-graphite/20"
-                aria-hidden="true"
-              />
-              <p className="mx-auto mt-5 max-w-md font-heading text-[1.5rem] leading-snug text-graphite/70">
+            <div className="mt-12 rounded-[24px] border border-dashed border-ink/15 px-6 py-16 text-center">
+              <Quote className="mx-auto h-7 w-7 text-ink/20" aria-hidden="true" />
+              <p className="mx-auto mt-5 max-w-md text-[1.35rem] font-medium leading-snug tracking-[-0.02em] text-ink/65">
                 Opinie z Google pojawią się tutaj.
               </p>
             </div>

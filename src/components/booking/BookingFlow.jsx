@@ -61,26 +61,26 @@ export default function BookingFlow({ session }) {
   if (result) {
     const waitlist = result.status === "lista_rezerwowa";
     return (
-      <div className="step-enter border border-graphite/15 bg-bone p-7 md:p-10">
+      <div className="step-enter site-card p-7 md:p-10">
         <BookingSuccess />
         <h2 className="mt-6 text-[1.8rem] leading-tight md:text-[2.1rem]">
           {waitlist ? "Jesteś na liście rezerwowej" : "Twoje miejsce jest zarezerwowane"}
         </h2>
-        <p className="mt-3 max-w-md text-[0.92rem] leading-[1.8] text-graphite/65">
+        <p className="mt-3 max-w-md text-[0.92rem] leading-[1.8] text-ink/65">
           {waitlist
             ? "Grupa jest pełna, ale zapisaliśmy Cię na listę. Jeśli ktoś odwoła udział, napiszemy do Ciebie od razu."
             : "Do zobaczenia w studiu. Szczegóły poniżej — wysłaliśmy je też mailem."}
         </p>
 
-        <dl className="mt-7 space-y-3 border-t border-graphite/10 pt-6 text-[0.9rem]">
+        <dl className="mt-7 space-y-3 border-t border-ink/10 pt-6 text-[0.9rem]">
           <Row label="Zajęcia" value={result.booking.class_name} />
           <Row label="Termin" value={`${formatShortPl(result.booking.date)}, ${result.booking.time}`} />
           <Row label="Prowadząca" value={result.booking.instructor} />
           <Row label="Zapisana osoba" value={result.booking.first_name} />
         </dl>
 
-        <div className="mt-7 border border-graphite/15 bg-sand/30 p-5">
-          <p className="text-[0.78rem] leading-relaxed text-graphite/70">
+        <div className="mt-7 rounded-[16px] bg-clay p-5">
+          <p className="text-[0.78rem] leading-relaxed text-ink/70">
             Rezerwację możesz odwołać do {session.cancellation_hours} godzin przed
             zajęciami, korzystając z linku w mailu:
           </p>
@@ -94,7 +94,7 @@ export default function BookingFlow({ session }) {
         </div>
 
         {!result.emailSent && (
-          <p className="mt-4 text-[0.78rem] leading-relaxed text-graphite/50">
+          <p className="mt-4 text-[0.78rem] leading-relaxed text-ink/50">
             Mail z potwierdzeniem nie został jeszcze dostarczony — zapisz link
             powyżej, żeby móc odwołać rezerwację.
           </p>
@@ -114,33 +114,33 @@ export default function BookingFlow({ session }) {
 
   return (
     <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:gap-12">
-      <aside className="h-fit border border-graphite/15 bg-sand/30 p-6 md:sticky md:top-28">
+      <aside className="h-fit rounded-[20px] bg-clay p-6 md:sticky md:top-28">
         <span
           className="block h-[3px] w-12"
           style={{ backgroundColor: session.color || "#B9788F" }}
           aria-hidden="true"
         />
         <h2 className="mt-5 text-[1.7rem] leading-tight">{session.name}</h2>
-        <ul className="mt-5 space-y-3 text-[0.88rem] text-graphite/70">
+        <ul className="mt-5 space-y-3 text-[0.88rem] text-ink/70">
           <li className="flex items-center gap-3">
-            <CalendarDays className="h-4 w-4 text-rose" aria-hidden="true" />
+            <CalendarDays className="h-4 w-4 text-leaf" aria-hidden="true" />
             {formatShortPl(session.date)}
           </li>
           <li className="flex items-center gap-3">
-            <Clock className="h-4 w-4 text-rose" aria-hidden="true" />
+            <Clock className="h-4 w-4 text-leaf" aria-hidden="true" />
             {session.time} · {session.duration} min
           </li>
           <li className="flex items-center gap-3">
-            <User className="h-4 w-4 text-rose" aria-hidden="true" />
+            <User className="h-4 w-4 text-leaf" aria-hidden="true" />
             {session.instructor}
           </li>
         </ul>
-        <p className="mt-5 border-t border-graphite/15 pt-4 text-[0.75rem] uppercase tracking-[0.14em] text-graphite/50">
+        <p className="mt-5 border-t border-ink/15 pt-4 text-[0.75rem] uppercase tracking-[0.14em] text-ink/50">
           {full
             ? "Grupa pełna — lista rezerwowa"
             : `${session.free} z ${session.capacity} miejsc wolnych`}
         </p>
-        <p className="mt-3 text-[0.78rem] leading-relaxed text-graphite/55">
+        <p className="mt-3 text-[0.78rem] leading-relaxed text-ink/55">
           Płatność na miejscu. Odwołanie możliwe do{" "}
           {session.cancellation_hours} h przed zajęciami.
         </p>
@@ -180,11 +180,11 @@ export default function BookingFlow({ session }) {
           />
         </Field>
 
-        <label className="flex items-start gap-3 text-[0.78rem] leading-relaxed text-graphite/65">
+        <label className="flex items-start gap-3 text-[0.78rem] leading-relaxed text-ink/65">
           <Checkbox
             checked={form.terms}
             onCheckedChange={(v) => setForm((f) => ({ ...f, terms: v === true }))}
-            className="mt-0.5 border-graphite/40"
+            className="mt-0.5 border-ink/40"
             aria-label="Akceptacja regulaminu"
           />
           <span>
@@ -196,11 +196,11 @@ export default function BookingFlow({ session }) {
           </span>
         </label>
 
-        <label className="flex items-start gap-3 text-[0.78rem] leading-relaxed text-graphite/65">
+        <label className="flex items-start gap-3 text-[0.78rem] leading-relaxed text-ink/65">
           <Checkbox
             checked={form.consent}
             onCheckedChange={(v) => setForm((f) => ({ ...f, consent: v === true }))}
-            className="mt-0.5 border-graphite/40"
+            className="mt-0.5 border-ink/40"
             aria-label="Zgoda RODO"
           />
           <span>
@@ -231,10 +231,10 @@ export default function BookingFlow({ session }) {
 function Row({ label, value }) {
   return (
     <div className="flex justify-between gap-6">
-      <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/45">
+      <dt className="text-[0.68rem] uppercase tracking-[0.14em] text-ink/45">
         {label}
       </dt>
-      <dd className="text-right text-graphite/80">{value}</dd>
+      <dd className="text-right text-ink/80">{value}</dd>
     </div>
   );
 }
@@ -244,7 +244,7 @@ function Field({ label, id, children }) {
     <div>
       <label
         htmlFor={id}
-        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-graphite/50"
+        className="mb-1.5 block text-[0.62rem] uppercase tracking-[0.16em] text-ink/50"
       >
         {label}
       </label>

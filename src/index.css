@@ -301,3 +301,183 @@
     transform: none;
   }
 }
+
+/* ------------------------------------------------------------------ */
+/* Strona publiczna — system wizualny (panel studia pozostaje bez zmian) */
+/* ------------------------------------------------------------------ */
+
+@layer components {
+  .site-shell {
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    color: #2b1d1a;
+    background-color: #f4eee8;
+  }
+
+  .site-shell h1,
+  .site-shell h2,
+  .site-shell h3,
+  .site-shell h4 {
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    text-transform: none;
+    text-wrap: balance;
+  }
+
+  .site-accent {
+    font-family: "Instrument Serif", ui-serif, Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.005em;
+  }
+
+  .site-shell .overline {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.4rem 0.95rem;
+    border-radius: 999px;
+    background: #faf7f3;
+    border: 1px solid rgba(43, 29, 26, 0.06);
+    color: rgba(43, 29, 26, 0.6);
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 1.2;
+    text-transform: none;
+  }
+
+  .site-shell .overline > span[aria-hidden="true"] {
+    display: none;
+  }
+
+  .site-shell .btn {
+    min-height: 52px;
+    padding: 0 1.7rem;
+    gap: 0.55rem;
+    border-radius: 999px;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .site-shell .btn-primary {
+    background: #2b1d1a;
+    color: #faf7f3;
+  }
+  .site-shell .btn-primary:hover {
+    background: #45302a;
+  }
+
+  .site-shell .btn-cream {
+    background: #faf7f3;
+    color: #2b1d1a;
+  }
+  .site-shell .btn-cream:hover {
+    background: #ffffff;
+  }
+
+  .site-shell .btn-primary::after,
+  .site-shell .btn-cream::after {
+    content: "→";
+    font-size: 1rem;
+    line-height: 1;
+    transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .site-shell .btn-primary:hover::after,
+  .site-shell .btn-cream:hover::after {
+    transform: translateX(4px);
+  }
+
+  .site-shell .btn-no-arrow::after {
+    content: none;
+  }
+
+  .site-shell .btn-outline {
+    border-color: rgba(43, 29, 26, 0.2);
+    color: #2b1d1a;
+    background: transparent;
+  }
+  .site-shell .btn-outline:hover {
+    background: #2b1d1a;
+    color: #faf7f3;
+    border-color: #2b1d1a;
+  }
+
+  .site-shell .btn-light {
+    border-color: rgba(250, 247, 243, 0.4);
+    color: #faf7f3;
+  }
+  .site-shell .btn-light:hover {
+    background: #faf7f3;
+    color: #2b1d1a;
+    border-color: #faf7f3;
+  }
+
+  .site-shell .input {
+    border-radius: 14px;
+    border-color: rgba(43, 29, 26, 0.12);
+    background: #faf7f3;
+    font-family: "Inter", ui-sans-serif, system-ui, sans-serif;
+    font-size: 0.94rem;
+  }
+
+  .site-shell .input:focus {
+    border-color: #8fa58a;
+    box-shadow: 0 0 0 3px rgba(143, 165, 138, 0.22);
+  }
+
+  .site-shell .input:focus-visible {
+    outline-color: #8fa58a;
+  }
+
+  .site-card {
+    border-radius: 24px;
+    background: #faf7f3;
+    border: 1px solid rgba(43, 29, 26, 0.07);
+  }
+
+  .site-photo {
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .site-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    border-radius: 999px;
+    padding: 0.38rem 0.85rem;
+    font-size: 0.76rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+}
+
+@layer utilities {
+  .polaroid {
+    background: #ffffff;
+    padding: 0.7rem 0.7rem 2.9rem;
+    border-radius: 6px;
+    box-shadow: 0 18px 40px -24px rgba(43, 29, 26, 0.5),
+      0 2px 8px -5px rgba(43, 29, 26, 0.22);
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .polaroid:hover {
+    transform: rotate(0deg) translateY(-8px) scale(1.015);
+    box-shadow: 0 32px 64px -28px rgba(43, 29, 26, 0.55);
+  }
+
+  .polaroid-caption {
+    font-family: "Caveat", ui-rounded, cursive;
+    font-size: 1.4rem;
+    line-height: 1;
+    color: rgba(43, 29, 26, 0.72);
+  }
+}

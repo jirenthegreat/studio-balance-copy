@@ -44,10 +44,10 @@ export default function CookieBanner() {
     <div
       role="dialog"
       aria-label="Zgoda na pliki cookies"
-      className="fixed inset-x-0 bottom-0 z-[9999] border-t border-graphite/15 bg-bone/98 backdrop-blur-md"
+      className="fixed inset-x-0 bottom-0 z-[9999] px-4 pb-4"
     >
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-5 md:flex-row md:items-center md:justify-between md:px-10">
-        <p className="max-w-2xl text-[0.8rem] leading-relaxed text-graphite/70">
+      <div className="mx-auto flex max-w-5xl flex-col gap-4 rounded-[20px] border border-ink/10 bg-surface/95 px-5 py-5 shadow-[0_20px_60px_-30px_rgba(43,29,26,0.6)] backdrop-blur-md md:flex-row md:items-center md:justify-between md:px-6">
+        <p className="max-w-2xl text-[0.82rem] leading-relaxed text-ink/60">
           Używamy plików cookies, żeby strona działała poprawnie i żebyśmy
           wiedzieli, które treści są przydatne. Możesz zaakceptować wszystkie
           albo tylko te niezbędne. Szczegóły w{" "}

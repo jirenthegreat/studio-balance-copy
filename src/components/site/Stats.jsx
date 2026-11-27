@@ -41,23 +41,19 @@ export default function Stats() {
   }, []);
 
   return (
-    <section className="border-y border-graphite/12 bg-sand/20 py-14 md:py-16">
+    <section className="bg-clay py-14 md:py-20">
       <div
         ref={ref}
         className="mx-auto grid max-w-6xl gap-10 px-5 sm:grid-cols-3 md:px-10"
       >
         {ITEMS.map((item) => (
           <div key={item.label} className="text-center">
-            <p className="font-heading text-[2.7rem] leading-none text-graphite md:text-[3.5rem]">
-              <span className="text-[0.8rem] uppercase tracking-[0.18em] text-graphite/45">
-                {item.prefix}
-              </span>
+            <p className="text-[2.7rem] font-medium leading-none tracking-[-0.04em] text-ink md:text-[3.5rem]">
+              <span className="text-[0.9rem] text-ink/45">{item.prefix}</span>
               {Math.round(item.value * progress)}
-              <span className="text-[1.3rem] text-graphite/55">{item.suffix}</span>
+              <span className="text-[1.3rem] text-ink/50">{item.suffix}</span>
             </p>
-            <p className="mt-3 text-[0.66rem] uppercase tracking-[0.2em] text-graphite/50">
-              {item.label}
-            </p>
+            <p className="mt-3 text-[0.84rem] text-ink/50">{item.label}</p>
           </div>
         ))}
       </div>

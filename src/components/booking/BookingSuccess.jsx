@@ -29,11 +29,11 @@ export default function BookingSuccess() {
   return (
     <span className="relative flex h-14 w-14 items-center justify-center">
       <span
-        className="absolute inset-0 rounded-full bg-sage/15"
+        className="absolute inset-0 rounded-full bg-leaf/15"
         aria-hidden="true"
       />
       <SpiralMark
-        className="spiral-breath relative h-9 w-9 text-sage"
+        className="spiral-breath relative h-9 w-9 text-leaf"
         strokeWidth={1.2}
       />
     </span>

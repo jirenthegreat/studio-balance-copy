@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { CalendarDays, User } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import SectionHeading from "./SectionHeading";
 import Reveal from "./Reveal";
 import { cn } from "@/lib/utils";
@@ -61,39 +61,47 @@ function weekdayLong(date) {
   return WEEKDAY_LONG[new Date(`${date}T12:00:00`).getDay()];
 }
 
+/** Delikatne pastelowe tło dla typu zajęć. */
+function tint(color, alpha) {
+  const hex = /^#[0-9a-f]{6}$/i.test(color || "") ? color : "#B9788F";
+  return `${hex}${alpha}`;
+}
+
 function SlotCard({ session }) {
   const free = Math.max(0, (session.capacity ?? 4) - (session.booked ?? 0));
   return (
-    <article className="relative border border-graphite/12 bg-bone/70 p-4 pl-5">
-      <span
-        className="absolute inset-y-0 left-0 w-[3px]"
-        style={{ backgroundColor: session.color || "#B9788F" }}
-        aria-hidden="true"
-      />
+    <article
+      className="rounded-[18px] border p-4"
+      style={{
+        backgroundColor: tint(session.color, "1F"),
+        borderColor: tint(session.color, "3D"),
+      }}
+    >
       <div className="flex flex-wrap items-start justify-between gap-2">
-        <span className="font-heading text-[1.35rem] leading-none">
+        <span className="text-[1.1rem] font-medium leading-none tracking-[-0.02em]">
           {session.time}
         </span>
         <span
           className={cn(
-            "text-[0.6rem] uppercase tracking-[0.12em]",
-            free === 0 ? "text-rose" : "text-graphite/45"
+            "site-pill !px-2.5 !py-1 !text-[0.68rem]",
+            free === 0
+              ? "bg-surface/80 text-ink/70"
+              : "bg-surface/60 text-ink/45"
           )}
         >
           {free === 0 ? "Lista rezerwowa" : `${free}/${session.capacity ?? 4} wolne`}
         </span>
       </div>
-      <h4 className="mt-2 text-[1.05rem] leading-snug">{session.name}</h4>
-      <div className="mt-2 flex items-center gap-2 text-[0.7rem] text-graphite/50">
-        <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sand/80">
-          <User className="h-3 w-3" aria-hidden="true" />
-        </span>
+      <h4 className="mt-2.5 text-[0.98rem] font-medium leading-snug tracking-[-0.01em]">
+        {session.name}
+      </h4>
+      <p className="mt-1.5 text-[0.8rem] text-ink/45">
         {session.instructor || "Paula"}
-      </div>
+      </p>
       <Link
         to="/rezerwacja/$sessionId"
         params={{ sessionId: session.id }}
-        className="btn btn-outline mt-4 w-full !min-h-[38px] !whitespace-normal !px-2 !text-[0.56rem] leading-tight"
+        className="btn btn-outline mt-3.5 w-full !min-h-[38px] !px-3 !text-[0.78rem]"
       >
         {free === 0 ? "Zapisz na listę" : "Zapisz się"}
       </Link>
@@ -106,7 +114,7 @@ export default function Schedule({
   compact = false,
   showAllLink = true,
   demo = true,
-  title = "Najbliższe 7 dni w studiu.",
+  title = "Najbliższe *7 dni* w studiu.",
   intro = "Małe grupy, więc miejsca szybko znikają. Zapis trwa chwilę i nie wymaga zakładania konta.",
 }) {
   const [filter, setFilter] = useState("all");
@@ -132,7 +140,7 @@ export default function Schedule({
   );
 
   return (
-    <section id="grafik" className="bg-sand/30 py-24 md:py-32">
+    <section id="grafik" className="py-24 md:py-32">
       <div className="mx-auto max-w-6xl px-5 md:px-10">
         <Reveal className="flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
           <SectionHeading overline="Grafik" title={title} intro={intro} />
@@ -148,10 +156,10 @@ export default function Schedule({
             type="button"
             onClick={() => setFilter("all")}
             className={cn(
-              "shrink-0 border px-4 py-2 text-[0.64rem] uppercase tracking-[0.14em] transition-colors",
+              "shrink-0 rounded-full px-4 py-2 text-[0.82rem] transition-colors",
               filter === "all"
-                ? "border-graphite bg-graphite text-bone"
-                : "border-graphite/20 text-graphite/60 hover:border-graphite/50"
+                ? "bg-ink text-surface"
+                : "bg-surface text-ink/60 hover:text-ink"
             )}
           >
             Wszystkie
@@ -162,10 +170,10 @@ export default function Schedule({
               type="button"
               onClick={() => setFilter(type.name)}
               className={cn(
-                "flex shrink-0 items-center gap-2 border px-4 py-2 text-[0.64rem] uppercase tracking-[0.14em] transition-colors",
+                "flex shrink-0 items-center gap-2 rounded-full px-4 py-2 text-[0.82rem] transition-colors",
                 filter === type.name
-                  ? "border-graphite bg-graphite text-bone"
-                  : "border-graphite/20 text-graphite/60 hover:border-graphite/50"
+                  ? "bg-ink text-surface"
+                  : "bg-surface text-ink/60 hover:text-ink"
               )}
             >
               <span
@@ -184,15 +192,15 @@ export default function Schedule({
             const daySessions = visible.filter((s) => s.date === date);
             return (
               <div key={date}>
-                <div className="mb-4 border-b border-graphite/15 pb-3">
-                  <p className="text-[0.66rem] uppercase tracking-[0.2em] text-graphite/45">
-                    {weekdayShort(date)}
+                <div className="mb-4 border-b border-ink/10 pb-3">
+                  <p className="text-[0.8rem] text-ink/45">{weekdayShort(date)}</p>
+                  <p className="mt-1 text-[1.05rem] font-medium tracking-[-0.02em]">
+                    {date.slice(8, 10)}.{date.slice(5, 7)}
                   </p>
-                  <p className="mt-1 font-heading text-lg">{date.slice(8, 10)}.{date.slice(5, 7)}</p>
                 </div>
                 <div className="space-y-3">
                   {daySessions.length === 0 && (
-                    <p className="py-6 text-center text-[0.7rem] text-graphite/35">
+                    <p className="py-6 text-center text-[0.78rem] text-ink/30">
                       brak zajęć
                     </p>
                   )}
@@ -211,7 +219,7 @@ export default function Schedule({
             const daySessions = visible.filter((s) => s.date === date);
             const isOpen = openDay === i;
             return (
-              <div key={date} className="border-b border-graphite/15">
+              <div key={date} className="border-b border-ink/10">
                 <button
                   type="button"
                   onClick={() => setOpenDay(isOpen ? -1 : i)}
@@ -219,12 +227,14 @@ export default function Schedule({
                   className="flex w-full items-center justify-between py-4 text-left"
                 >
                   <span className="flex items-baseline gap-3">
-                    <span className="font-heading text-xl">{weekdayLong(date)}</span>
-                    <span className="text-[0.68rem] uppercase tracking-[0.14em] text-graphite/40">
+                    <span className="text-[1.1rem] font-medium tracking-[-0.02em]">
+                      {weekdayLong(date)}
+                    </span>
+                    <span className="text-[0.78rem] text-ink/40">
                       {date.slice(8, 10)}.{date.slice(5, 7)}
                     </span>
                   </span>
-                  <span className="flex items-center gap-2 text-[0.62rem] uppercase tracking-[0.12em] text-graphite/45">
+                  <span className="flex items-center gap-2 text-[0.76rem] text-ink/45">
                     {daySessions.length} {daySessions.length === 1 ? "zajęcia" : "zajęć"}
                     <CalendarDays className="h-4 w-4" aria-hidden="true" />
                   </span>
@@ -232,7 +242,7 @@ export default function Schedule({
                 {isOpen && (
                   <div className="space-y-3 pb-5">
                     {daySessions.length === 0 && (
-                      <p className="py-2 text-[0.8rem] text-graphite/45">
+                      <p className="py-2 text-[0.84rem] text-ink/45">
                         W tym dniu nie ma zaplanowanych zajęć.
                       </p>
                     )}
@@ -247,12 +257,12 @@ export default function Schedule({
         </div>
 
         {visible.length === 0 && (
-          <p className="mt-8 text-center text-sm text-graphite/50">
+          <p className="mt-8 text-center text-[0.9rem] text-ink/50">
             Brak zajęć w wybranym filtrze. Zmień filtr lub zajrzyj do pełnego grafiku.
           </p>
         )}
         {!compact && (
-          <p className="mt-10 text-[0.72rem] uppercase tracking-[0.16em] text-graphite/40">
+          <p className="mt-10 text-[0.84rem] text-ink/40">
             Zajęcia prowadzi Paula Kruszyńska
           </p>
         )}

@@ -30,39 +30,41 @@ function PersonalPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-graphite pb-16 pt-32 md:pt-40">
-        <Image
-          src={IMG.paula}
-          alt="Paula Kruszyńska w studiu Balance"
-          className="photo-warm absolute inset-0 h-full w-full opacity-30"
+      <section className="relative overflow-hidden pb-16 pt-32 md:pt-40">
+        <div className="absolute inset-0">
+          <Image
+            src={IMG.paula}
+            alt="Paula Kruszyńska w studiu Balance"
+            className="photo-warm h-full w-full"
+          />
+        </div>
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/85 to-canvas/20 md:bg-gradient-to-r md:from-canvas md:via-canvas/88 md:to-canvas/0"
+          aria-hidden="true"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-graphite via-graphite/85 to-graphite/40" aria-hidden="true" />
         <div className="relative mx-auto max-w-6xl px-5 md:px-10">
-          <p className="overline flex items-center gap-3 text-sand/70">
-            <span className="h-px w-7 bg-sand/40" aria-hidden="true" />
-            Trening personalny
-          </p>
-          <h1 className="mt-5 max-w-2xl text-[2.3rem] leading-[1.05] text-bone md:text-[3.4rem]">
-            Godzina tylko dla Ciebie.
+          <p className="overline mb-6">Trening personalny</p>
+          <h1 className="max-w-2xl text-[clamp(2.2rem,5vw,3.6rem)] font-medium leading-[1.02] tracking-[-0.03em] text-ink">
+            Godzina <em className="site-accent">tylko dla Ciebie</em>.
           </h1>
-          <p className="mt-5 max-w-xl text-[0.95rem] leading-[1.8] text-bone/75">
+          <p className="mt-5 max-w-xl text-[0.95rem] leading-[1.8] text-ink/55">
             Plan dopasowany do Twojego ciała, celu i tygodnia. Pracujemy nad
             siłą, kondycją i techniką — w tempie, które do Ciebie pasuje.
           </p>
         </div>
       </section>
 
-      <section className="py-16 md:py-24">
+      <section className="pb-16 md:pb-24">
         <div className="mx-auto max-w-3xl px-5 md:px-10">
-          <div className="mb-10 grid gap-6 border border-graphite/12 bg-bone p-6 sm:grid-cols-3">
+          <div className="site-card mb-10 grid gap-6 p-6 sm:grid-cols-3">
             {[
               ["60 minut", "czas jednej sesji"],
               ["1:1 lub w parze", "forma treningu"],
               ["Potwierdzenie", "mailem od Pauli"],
             ].map(([title, sub]) => (
               <div key={title}>
-                <p className="text-[0.82rem] uppercase tracking-[0.14em]">{title}</p>
-                <p className="mt-1 text-[0.78rem] text-graphite/50">{sub}</p>
+                <p className="text-[0.95rem] font-medium tracking-[-0.01em]">{title}</p>
+                <p className="mt-1 text-[0.82rem] text-ink/45">{sub}</p>
               </div>
             ))}
           </div>
@@ -70,7 +72,7 @@ function PersonalPage() {
           {instructors.length ? (
             <PersonalBookingFlow instructors={instructors} today={today} />
           ) : (
-            <p className="border border-graphite/15 bg-sand/30 p-6 text-[0.9rem] text-graphite/60">
+            <p className="rounded-[20px] bg-clay p-6 text-[0.9rem] text-ink/55">
               Zapisy na treningi personalne są chwilowo wstrzymane. Napisz do
               nas na Messengerze — ustalimy termin indywidualnie.
             </p>

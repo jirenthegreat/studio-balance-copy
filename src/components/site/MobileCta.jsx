@@ -25,7 +25,7 @@ export default function MobileCta() {
     >
       <Link
         to="/grafik"
-        className="btn btn-primary w-full shadow-[0_16px_40px_-18px_rgba(43,43,43,0.7)]"
+        className="btn btn-primary w-full shadow-[0_18px_40px_-18px_rgba(43,29,26,0.65)]"
       >
         Zarezerwuj zajęcia
       </Link>

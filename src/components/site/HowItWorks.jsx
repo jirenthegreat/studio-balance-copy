@@ -29,7 +29,7 @@ export default function HowItWorks() {
         <Reveal>
           <SectionHeading
             overline="Jak to działa"
-            title="Trzy kroki|do pierwszego treningu."
+            title="Trzy kroki|do *pierwszego treningu*."
           />
         </Reveal>
 
@@ -41,22 +41,22 @@ export default function HowItWorks() {
               style={{ top: `${88 + i * 18}px` }}
             >
               <Reveal delay={i * 60}>
-                <article className="grid gap-6 border border-graphite/12 bg-bone p-7 shadow-[0_-24px_60px_-44px_rgba(43,43,43,0.45)] md:grid-cols-[auto_1fr_auto] md:items-center md:gap-10 md:p-10">
-                  <span className="font-heading text-[2.4rem] leading-none text-rose/65">
+                <article className="site-card grid gap-6 p-7 shadow-[0_-24px_60px_-46px_rgba(43,29,26,0.5)] md:grid-cols-[auto_1fr_auto] md:items-center md:gap-10 md:p-10">
+                  <span className="font-accent text-[2.4rem] italic leading-none text-blush">
                     {step.number}
                   </span>
                   <div>
-                    <h3 className="text-[1.45rem] leading-tight md:text-[1.6rem]">
+                    <h3 className="text-[1.35rem] font-medium leading-tight tracking-[-0.02em] md:text-[1.5rem]">
                       {step.title}
                     </h3>
-                    <p className="mt-2.5 max-w-xl text-[0.9rem] leading-[1.75] text-graphite/60">
+                    <p className="mt-2.5 max-w-xl text-[0.9rem] leading-[1.75] text-ink/55">
                       {step.text}
                     </p>
                   </div>
                   {step.to && (
                     <Link
                       to={step.to}
-                      className="btn btn-outline !min-h-[42px] !px-5 !text-[0.6rem]"
+                      className="btn btn-outline !min-h-[42px] !px-5 !text-[0.8rem]"
                     >
                       {step.label}
                     </Link>

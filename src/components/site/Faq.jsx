@@ -36,12 +36,12 @@ const FAQ = [
 
 export default function Faq() {
   return (
-    <section id="faq" className="py-24 md:py-32">
+    <section id="faq" className="bg-clay py-24 md:py-32">
       <div className="mx-auto grid max-w-6xl gap-12 px-5 md:grid-cols-[0.8fr_1.2fr] md:gap-20 md:px-10">
         <Reveal>
           <SectionHeading
             overline="FAQ"
-            title="Zanim przyjdziesz."
+            title="Zanim *przyjdziesz*."
             intro="Najczęstsze pytania. Jeśli czegoś brakuje – napisz lub zadzwoń."
           />
         </Reveal>
@@ -52,12 +52,12 @@ export default function Faq() {
               <AccordionItem
                 key={item.q}
                 value={`item-${i}`}
-                className="border-b border-graphite/15"
+                className="border-b border-ink/10"
               >
-                <AccordionTrigger className="py-5 text-left font-heading text-[1.15rem] font-normal leading-snug hover:no-underline [&>svg]:text-graphite/40">
+                <AccordionTrigger className="py-5 text-left text-[1.05rem] font-medium leading-snug tracking-[-0.01em] hover:no-underline [&>svg]:text-ink/35">
                   {item.q}
                 </AccordionTrigger>
-                <AccordionContent className="pb-5 pr-6 text-[0.9rem] leading-[1.8] text-graphite/65">
+                <AccordionContent className="pb-5 pr-6 text-[0.92rem] leading-[1.8] text-ink/60">
                   {item.a}
                 </AccordionContent>
               </AccordionItem>

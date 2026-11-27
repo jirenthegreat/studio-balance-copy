@@ -7,7 +7,7 @@ function Stars() {
       {[0, 1, 2, 3, 4].map((i) => (
         <Star
           key={i}
-          className="h-3 w-3 fill-rose text-rose"
+          className="h-3 w-3 fill-blush text-blush"
           aria-hidden="true"
         />
       ))}
@@ -20,15 +20,15 @@ function ReviewCard({ review }) {
   return (
     <figure
       data-card
-      className="flex w-[86%] shrink-0 snap-start flex-col justify-between border border-graphite/12 bg-card p-7 sm:w-[47%] lg:w-[calc((100%-3rem)/3)]"
+      className="site-card flex w-[86%] shrink-0 snap-start flex-col justify-between p-7 sm:w-[47%] lg:w-[calc((100%-3rem)/3)]"
     >
       <div>
         <div className="flex items-center gap-3.5">
-          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-sand/70 font-heading text-[1.15rem] text-graphite">
+          <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-leaf/20 text-[1.05rem] font-medium text-ink">
             {initial}
           </span>
           <div>
-            <p className="text-[0.88rem] tracking-[0.02em] text-graphite">
+            <p className="text-[0.9rem] font-medium tracking-[-0.01em] text-ink">
               {review.author}
             </p>
             <div className="mt-1.5">
@@ -37,13 +37,13 @@ function ReviewCard({ review }) {
           </div>
         </div>
 
-        <blockquote className="mt-5 text-[0.9rem] leading-[1.85] text-graphite/70">
+        <blockquote className="mt-5 text-[0.92rem] leading-[1.85] text-ink/60">
           „{review.text}”
         </blockquote>
       </div>
 
-      <p className="mt-6 flex items-center gap-2 border-t border-graphite/10 pt-4 text-[0.58rem] uppercase tracking-[0.2em] text-graphite/45">
-        <span className="flex h-4 w-4 items-center justify-center rounded-full border border-graphite/25 text-[0.5rem] font-semibold">
+      <p className="mt-6 flex items-center gap-2 border-t border-ink/[0.07] pt-4 text-[0.76rem] text-ink/40">
+        <span className="flex h-4 w-4 items-center justify-center rounded-full bg-ink/80 text-[0.5rem] font-semibold text-surface">
           G
         </span>
         Opinia z Google
@@ -75,7 +75,7 @@ export default function ReviewCarousel({ reviews }) {
       </div>
 
       <div className="mt-6 flex items-center justify-between">
-        <p className="text-[0.62rem] uppercase tracking-[0.18em] text-graphite/40 md:hidden">
+        <p className="text-[0.78rem] text-ink/40 md:hidden">
           Przewiń palcem, aby zobaczyć więcej
         </p>
         <div className="hidden gap-2 md:flex">
@@ -83,7 +83,7 @@ export default function ReviewCarousel({ reviews }) {
             type="button"
             onClick={() => scrollByCard(-1)}
             aria-label="Poprzednie opinie"
-            className="flex h-10 w-10 items-center justify-center border border-graphite/20 text-graphite/70 transition-colors hover:border-graphite/60 hover:text-graphite"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink/60 transition-colors hover:text-ink"
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -91,7 +91,7 @@ export default function ReviewCarousel({ reviews }) {
             type="button"
             onClick={() => scrollByCard(1)}
             aria-label="Następne opinie"
-            className="flex h-10 w-10 items-center justify-center border border-graphite/20 text-graphite/70 transition-colors hover:border-graphite/60 hover:text-graphite"
+            className="flex h-11 w-11 items-center justify-center rounded-full bg-surface text-ink/60 transition-colors hover:text-ink"
           >
             <ChevronRight className="h-4 w-4" />
           </button>

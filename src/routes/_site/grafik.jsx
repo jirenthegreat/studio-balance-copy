@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import Schedule from "@/components/site/Schedule";
+import Accent from "@/components/site/Accent";
 import { getSiteContent } from "@/lib/server-fns";
 
 export const Route = createFileRoute("/_site/grafik")({
@@ -33,16 +34,19 @@ function GrafikPage() {
 
   return (
     <>
-      <section className="border-b border-graphite/10 bg-bone pb-10 pt-32 md:pt-40">
+      <section className="pb-10 pt-32 md:pt-40">
         <div className="mx-auto max-w-6xl px-5 md:px-10">
-          <p className="overline flex items-center gap-3 text-rose">
-            <span className="h-px w-7 bg-rose/50" aria-hidden="true" />
-            Grafik
-          </p>
-          <h1 className="mt-5 max-w-2xl text-[2.4rem] leading-[1.05] md:text-[3.4rem]">
-            {person ? `Zajęcia z ${person.name}` : "Zaplanuj swój tydzień."}
+          <p className="overline mb-6">Grafik</p>
+          <h1 className="max-w-2xl text-[clamp(2.2rem,5vw,3.6rem)] font-medium leading-[1.02] tracking-[-0.03em]">
+            {person ? (
+              <>
+                Zajęcia z <em className="site-accent">{person.name}</em>
+              </>
+            ) : (
+              <Accent text="Zaplanuj swój *tydzień*." />
+            )}
           </h1>
-          <p className="mt-4 max-w-xl text-[0.95rem] leading-[1.8] text-graphite/60">
+          <p className="mt-5 max-w-xl text-[0.95rem] leading-[1.8] text-ink/55">
             Kameralne grupy do czterech osób. Wybierz termin i zapisz się w
             kilka sekund — potwierdzenie przyjdzie mailem.
           </p>
@@ -50,7 +54,7 @@ function GrafikPage() {
             <Link
               to="/grafik"
               search={{}}
-              className="mt-5 inline-block text-[0.72rem] uppercase tracking-[0.16em] underline underline-offset-4"
+              className="mt-6 inline-block rounded-full bg-surface px-5 py-2.5 text-[0.84rem] text-ink/65 transition-colors hover:text-ink"
             >
               Pokaż wszystkie zajęcia
             </Link>
@@ -62,7 +66,7 @@ function GrafikPage() {
         sessions={filtered}
         demo={!instructor}
         showAllLink={false}
-        title="Terminy na najbliższe 7 dni"
+        title="Terminy na *najbliższe 7 dni*"
         intro="Kliknij „Zapisz się”, aby zarezerwować miejsce. Jeśli grupa jest pełna, dopiszemy Cię na listę rezerwową."
       />
     </>
