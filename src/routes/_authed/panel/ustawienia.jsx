@@ -27,6 +27,8 @@ function UstawieniaPanel() {
       cancellation_hours: settings.cancellation_hours ?? 12,
       default_capacity: settings.default_capacity ?? 4,
       senior_note: settings.senior_note || "",
+      promo_enabled: settings.promo_enabled !== false,
+      promo_text: settings.promo_text || "−50% na pierwszy trening personalny",
       ...Object.fromEntries(
         EMAILS.flatMap((e) => [
           [e.s, settings[e.s] || ""],
@@ -92,6 +94,26 @@ function UstawieniaPanel() {
               className="input resize-none"
               value={form.senior_note}
               onChange={(e) => setForm({ ...form, senior_note: e.target.value })}
+            />
+          </PField>
+        </PanelCard>
+
+        <PanelCard title="Oferta powitalna (bilet)">
+          <label className="flex items-center gap-2.5 text-[0.85rem] text-graphite/70">
+            <input
+              type="checkbox"
+              className="h-4 w-4 rounded border-graphite/25"
+              checked={form.promo_enabled}
+              onChange={(e) => setForm({ ...form, promo_enabled: e.target.checked })}
+            />
+            Pokazuj bilet powitalny na stronie głównej
+          </label>
+          <PField label="Treść promocji" hint="Duża linia na bilecie" className="mt-3">
+            <textarea
+              rows={3}
+              className="input resize-none"
+              value={form.promo_text}
+              onChange={(e) => setForm({ ...form, promo_text: e.target.value })}
             />
           </PField>
         </PanelCard>

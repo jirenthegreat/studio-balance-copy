@@ -4,7 +4,7 @@ export const DEFAULT_SETTINGS = {
   cancellation_hours: 12,
   default_capacity: 4,
   promo_enabled: true,
-  promo_text: "−50% na pierwszy trening personalny dla nowych klientek",
+  promo_text: "−50% na pierwszy trening personalny",
   senior_note: "Honorujemy Lubelską Kartę Seniora.",
   email_confirmation_subject: "Rezerwacja potwierdzona — {{zajecia}}, {{data}}",
   email_confirmation_body:
