@@ -51,8 +51,11 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-6xl px-5 pb-12 pt-36 md:px-10 md:pb-16">
-        <p className="overline flex items-center gap-3 text-bone/70">
-          <span className="h-px w-7 bg-bone/40" aria-hidden="true" />
+        <p className="overline flex items-center gap-3 whitespace-nowrap text-bone/70">
+          <span
+            className="block h-px w-7 shrink-0 bg-bone/40"
+            aria-hidden="true"
+          />
           {CONTACT.place} · Lublin
         </p>
         <h1 className="mt-6 max-w-[15ch] text-[clamp(2.9rem,8.6vw,7.6rem)] leading-[0.9] tracking-[-0.03em] text-bone">

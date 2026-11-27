@@ -28,7 +28,6 @@ const SCHEMA = {
   telephone: "+48730730357",
   priceRange: "$$",
   currenciesAccepted: "PLN",
-  paymentAccepted: "Gotówka, karta",
   address: {
     "@type": "PostalAddress",
     streetAddress: "Aleje Racławickie 10/14, lok. 14",

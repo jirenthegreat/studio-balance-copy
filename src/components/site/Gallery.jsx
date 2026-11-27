@@ -10,7 +10,6 @@ import { IMG } from "@/lib/images";
 export const SAMPLE_GALLERY = [
   { id: "g1", image: IMG.pilatesGroup, caption: "Pilates w grupie do czterech osób", ratio: "aspect-[4/5]" },
   { id: "g2", image: IMG.paulaClass, caption: "Paula przed zajęciami", ratio: "aspect-[3/4]" },
-  { id: "g3", image: IMG.detail, caption: "Detale sali", ratio: "aspect-square" },
   { id: "g4", image: IMG.pilatesClass, caption: "Wspólny trening", ratio: "aspect-[4/3]" },
 ];
 

@@ -44,10 +44,7 @@ export default function Reviews({ reviews = [] }) {
                 aria-hidden="true"
               />
               <p className="mx-auto mt-5 max-w-md font-heading text-[1.5rem] leading-snug text-graphite/70">
-                Miejsce na opinie klientek
-              </p>
-              <p className="mx-auto mt-3 max-w-sm text-[0.85rem] leading-relaxed text-graphite/50">
-                Opinie dodasz w panelu studia — pojawią się tutaj automatycznie.
+                Opinie z Google pojawią się tutaj.
               </p>
             </div>
           </Reveal>

@@ -17,13 +17,23 @@ const WEEKDAY_LONG = [
 ];
 
 // Dane przykładowe — docelowo sesje pochodzą z bazy studia.
+// weekday: 1 = poniedziałek … 5 = piątek. Daty wyliczamy z wyświetlanego tygodnia.
 export const SAMPLE_SESSIONS = [
-  { id: "s1", date: "2026-11-30", time: "10:00", name: "Pilates + relaksacja", color: "#B9788F", duration: 60, instructor: "Paula", capacity: 4, booked: 2, is_demo: true },
-  { id: "s2", date: "2026-12-01", time: "10:00", name: "Fit Mama", color: "#9DAA94", duration: 55, instructor: "Paula", capacity: 4, booked: 3, is_demo: true },
-  { id: "s3", date: "2026-12-02", time: "18:00", name: "Spinning Fit", color: "#C08552", duration: 50, instructor: "Paula", capacity: 4, booked: 4, is_demo: true },
-  { id: "s4", date: "2026-12-03", time: "18:00", name: "Stretching", color: "#7C8B9B", duration: 55, instructor: "Paula", capacity: 4, booked: 1, is_demo: true },
-  { id: "s5", date: "2026-12-04", time: "18:00", name: "Pilates + relaksacja", color: "#B9788F", duration: 60, instructor: "Paula", capacity: 4, booked: 0, is_demo: true },
+  { id: "s1", weekday: 1, time: "10:00", name: "Pilates + relaksacja", color: "#B9788F", duration: 60, instructor: "Paula", capacity: 4, booked: 2 },
+  { id: "s2", weekday: 2, time: "10:00", name: "Fit Mama", color: "#9DAA94", duration: 55, instructor: "Paula", capacity: 4, booked: 3 },
+  { id: "s3", weekday: 3, time: "18:00", name: "Spinning Fit", color: "#C08552", duration: 50, instructor: "Paula", capacity: 4, booked: 4 },
+  { id: "s4", weekday: 4, time: "18:00", name: "Stretching", color: "#7C8B9B", duration: 55, instructor: "Paula", capacity: 4, booked: 1 },
+  { id: "s5", weekday: 5, time: "18:00", name: "Pilates + relaksacja", color: "#B9788F", duration: 60, instructor: "Paula", capacity: 4, booked: 0 },
 ];
+
+function demoSessionsFor(week) {
+  return SAMPLE_SESSIONS.flatMap((session) => {
+    const date = week.find(
+      (day) => new Date(`${day}T12:00:00`).getDay() === session.weekday
+    );
+    return date ? [{ ...session, date, is_demo: true }] : [];
+  });
+}
 
 function isoDate(d) {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
@@ -92,25 +102,32 @@ function SlotCard({ session }) {
 }
 
 export default function Schedule({
-  sessions = SAMPLE_SESSIONS,
+  sessions = [],
   compact = false,
   showAllLink = true,
-  title = "Ten tydzień w studiu.",
+  demo = true,
+  title = "Najbliższe 7 dni w studiu.",
   intro = "Małe grupy, więc miejsca szybko znikają. Zapis trwa chwilę i nie wymaga zakładania konta.",
 }) {
   const [filter, setFilter] = useState("all");
   const [openDay, setOpenDay] = useState(0);
 
+  const week = useMemo(() => weekDatesFor(), []);
+
+  const source = useMemo(() => {
+    if (sessions.length) return sessions;
+    return demo ? demoSessionsFor(week) : [];
+  }, [sessions, week, demo]);
+
   const types = useMemo(() => {
     const map = new Map();
-    sessions.forEach((s) => {
+    source.forEach((s) => {
       if (!map.has(s.name)) map.set(s.name, s.color);
     });
     return Array.from(map, ([name, color]) => ({ name, color }));
-  }, [sessions]);
+  }, [source]);
 
-  const week = useMemo(() => weekDatesFor(), []);
-  const visible = sessions.filter(
+  const visible = source.filter(
     (s) => week.includes(s.date) && (filter === "all" || s.name === filter)
   );
 

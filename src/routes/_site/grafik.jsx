@@ -60,8 +60,9 @@ function GrafikPage() {
 
       <Schedule
         sessions={filtered}
+        demo={!instructor}
         showAllLink={false}
-        title="Terminy w tym tygodniu"
+        title="Terminy na najbliższe 7 dni"
         intro="Kliknij „Zapisz się”, aby zarezerwować miejsce. Jeśli grupa jest pełna, dopiszemy Cię na listę rezerwową."
       />
     </>
