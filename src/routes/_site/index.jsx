@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
 import Hero from "@/components/site/Hero";
+import TrustBar from "@/components/site/TrustBar";
+import QuoteBand from "@/components/site/QuoteBand";
+import Concerns from "@/components/site/Concerns";
+import StudioCarousel from "@/components/site/StudioCarousel";
 import About from "@/components/site/About";
 import MeetPaula from "@/components/site/MeetPaula";
 import Team from "@/components/site/Team";
@@ -10,7 +14,6 @@ import Stats from "@/components/site/Stats";
 import MobileCta from "@/components/site/MobileCta";
 import Schedule from "@/components/site/Schedule";
 import Pricing from "@/components/site/Pricing";
-import Gallery from "@/components/site/Gallery";
 import Reviews from "@/components/site/Reviews";
 import CtaBand from "@/components/site/CtaBand";
 import Faq from "@/components/site/Faq";
@@ -81,7 +84,7 @@ export const Route = createFileRoute("/_site/")({
 });
 
 function HomePage() {
-  const { types, sessions, plans, gallery, reviews, instructors, settings } =
+  const { types, sessions, plans, reviews, instructors, settings } =
     Route.useLoaderData();
 
   const lead = instructors[0];
@@ -93,6 +96,8 @@ function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(SCHEMA) }}
       />
       <Hero />
+      <TrustBar />
+      <QuoteBand />
       <About />
       <MeetPaula
         instructor={
@@ -109,6 +114,7 @@ function HomePage() {
         }
       />
       <Offer offers={types.length ? types : undefined} />
+      <Concerns />
       <Marquee />
       <HowItWorks />
       <Stats />
@@ -121,7 +127,7 @@ function HomePage() {
             : undefined
         }
       />
-      <Gallery images={gallery.length ? gallery : undefined} />
+      <StudioCarousel />
       <Reviews reviews={reviews} />
       <CtaBand />
       <Team instructors={instructors} />

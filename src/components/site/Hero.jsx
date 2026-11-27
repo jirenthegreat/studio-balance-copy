@@ -5,6 +5,8 @@ import { Image } from "@/components/ui/image";
 import Magnetic from "./Magnetic";
 import { IMG, CONTACT } from "@/lib/images";
 
+const TAGS = ["Pilates", "Spinning", "Trening personalny", "Fit Mama"];
+
 const FEATURES = [
   { icon: Users, label: "Maks. 4 osoby w grupie" },
   { icon: Sparkles, label: "Indywidualne podejście" },
@@ -60,9 +62,13 @@ export default function Hero() {
       />
 
       <div className="relative mx-auto w-full max-w-6xl px-5 pb-14 pt-36 md:px-10 md:pb-20">
-        <p className="overline">{CONTACT.place} · Lublin</p>
-        <h1 className="mt-7 max-w-[15ch] text-[clamp(2.7rem,7vw,6rem)] font-medium leading-[0.95] tracking-[-0.035em] text-ink">
-          Znajdź swoją <em className="site-accent">równowagę</em>.
+        <p className="overline">
+          <span className="text-ink/35">–</span>
+          {CONTACT.place} · Lublin
+        </p>
+        <h1 className="mt-7 text-[clamp(2.7rem,7vw,6rem)] font-medium leading-[0.95] tracking-[-0.035em] text-ink">
+          <span className="block">Znajdź swoją</span>
+          <span className="site-accent block">równowagę.</span>
         </h1>
         <p className="mt-7 max-w-md text-[1rem] leading-[1.75] text-ink/60 md:text-[1.05rem]">
           Treningi personalne i zajęcia w kameralnych grupach do 4 osób,
@@ -81,7 +87,19 @@ export default function Hero() {
           </Magnetic>
         </div>
 
-        <ul className="mt-12 flex flex-wrap gap-x-8 gap-y-3">
+        <div className="mt-7 flex flex-wrap gap-2">
+          {TAGS.map((tag) => (
+            <a
+              key={tag}
+              href="#oferta"
+              className="site-pill border border-ink/10 bg-surface/70 px-3.5 py-2 text-[0.8rem] text-ink/65 backdrop-blur-sm transition-colors hover:border-ink/25 hover:bg-surface hover:text-ink"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+
+        <ul className="mt-10 flex flex-wrap gap-x-8 gap-y-3">
           {FEATURES.map(({ icon: Icon, label }) => (
             <li
               key={label}
